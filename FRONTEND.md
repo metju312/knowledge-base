@@ -9,13 +9,19 @@
 * https://www.epicweb.dev/
 * https://dev.to/coursesity/react-libraries-to-use-in-2021-15-top-picks-37d7
 * https://tworcastron.pl/kursy/node-kurs-kompletny
-* fiszki aktualna strona react: 24
+* fiszki aktualna strona react: 47
+* web dev simplified forad map frontend and backend
+
+# Self improve projects
+* Next.js
+* python - GoDot game
 
 # YouTube channels
 
 ---
 
 * [Jack Herrington](https://www.youtube.com/@jherr/videos)
+* [Web Dev Simplified](https://www.youtube.com/@WebDevSimplified/videos)
 
 
 # Acronyms
@@ -74,10 +80,50 @@
 # Tech stack / Tools
 
 ---
+* `Redux`
+  * stan aplikacji jest przechowywany w 1 miejscu jako drzewo obiektów, którym jest `store`
+  * `akcje` to obiekty opisujące CO zmieniło się w stanie aplikacji. Wysyłane są przez `store.dispatch()`
+  * zmiany stanu następują przez `reducery`, które są funkcjami bez efektów ubocznych. Opisują JAK dane z akcji modyfikują stan
+  * `store`
+    * obiekt tylko do odczytu przechowujący stan aplikacji w postaci drzewa i pilnuje zmian stanu
+    * jest modyfikowany akcjami
+    * odczyt za pomocą `getState()`
+    * rejestruje listenery za pomocą `subscribe()`
+* `Redux Thunk`
+  * dostarcza `middleware` pozwalający na tworzenie funkcji pozwalająctch asynchroniczne operacje po których odczytuje stan i wysyła akcje
+  * dzieje się to poprzez `action creators` dzięki nim thunk opóźnia wysłanie akcji do momentu kiedy zostanie zrealizowana operacja asynchroniczna np. request do API
+
+
+      function updateUserRole(role) {
+        return dispatch => fetchUsers().then(
+          users => dispatch(changeRoleTo(role, users)),
+          users => dispatch(apologize('Failed', error))
+        );
+      }
+      store.dispatch(updateUserRole('support'));
+
+* `Redux Saga`
+  * podobny `middleware` do `redux thunk`
+  * służy do obsługi efektów ubocznych zmiany stanu
+  * jest zbudowana wokół generatorów z ES6
+
+
+    // Saga fetchUser czeka na wywołanie akcji USER_REQUESTED // np. dispatch({ type: 'USER_REQUESTED', payload: { userId } }) function fetchUser(action) {
+    }
+    const user = yield call (Api.fetchUser, action.payload.userId); yield put({ type: "USER_SUCCEEDED", user: user });
+    // Wywołuje fetchUser dla każdej akcji tego typu function mySaga() {
+    yield takeEvery("USER_REQUESTED", fetchUser);
+
+* `Redux Toolkit`
+  * TODO
+* `Playwright` - TODO
 * Gatsby - TODO
 * Sentry - TODO
 * performing monitoring - TODO
 * modern build tools - TODO
+* `Enzyme` - TODO
+* `Next.js` - TODO
+* `Nest.js` - TODO
 
 
 # Design Patterns
@@ -128,17 +174,58 @@
 * `prop drilling` - konieczność przekazywania propsów wiele poziomów w drzewie DOM. Zamiast tego można użyć np. Context/Redux
 * `komponent kontrolowany` - react stanem kontroluje stan pól formularza (poprzez atrybut value), które normalnie (gdy są niekontrolowane) mają własny stan
 * `HoC` - opakowuje komponent w kontenter mający dodatkowe możliwości
-* `Pure Component` - zwraca taki sam wynika jeśli poda mu się takie same props i state. Jest prawie jak zwykły komponent reactowy ale porównanie props i state stanu poprzedniego z aktualnym jest płytkie (shallow)
+* `Pure Component` - zwraca taki sam wynik jeśli poda mu się takie same props i state. Jest prawie jak zwykły komponent reactowy ale porównanie props i state stanu poprzedniego z aktualnym jest płytkie (shallow)
 * `error boundary` - granice błędów - wrapują część drzewa dom i jeśli wystąpi wewnątrz błąd wówczas renderują komponent zastępczy
-* `setState` - jest metodą asynchroniczną a jej wywołania są grupowane ze względu na wydajność
-* `useState`
-  * `useState(() => loadBigData())` - gwarantuje wykonanie obliczeń tylko raz. `useMemo` tego nie gwarantuje 
+* `state`
+  * `setState` - jest metodą asynchroniczną a jej wywołania są grupowane ze względu na wydajność
+  * `useState(() => loadBigData())` - gwarantuje wykonanie obliczeń tylko raz. `useMemo` tego nie gwarantuje
+  * nie należy zmieniać this.state, ponieważ React nie potrafiłby rozpoznać, kiedy przerenderować komponent
+* `React.memo(component)` - HoC, który optymalizuje liczbę rerenderów, ponieważ z pełnego porównywania propsów, wykonuje porównanie płytkie, shallow (wszystkie prymitywy najwyższego poziomu itrzymują kopię z wyłączeniem obiektów, które nadal są połączone z oryginalną wartością)
+* `HTML Events vs React Events` - w React przerywa się stack zdarzeń poprzez preventDefault()
+* `SyntheticEvent` - "zdarzenie syntetyczne" - obiekt opakowujący zdarzenie będący częścią systemu zdarzeń Reacta. Zapewnia identyczne działanie zdarzeń dla każdej przeglądarki
+* `key` - pomagają Reactowi identyfikować elementy kolekcji do rerendera/dodania/usunięcia. Do optymalizacji rerenderowania
+* `routing`
+  * `BrowserRouter`
+    * używa History API z HTML5 do nawigacji i utrzymywania URL
+    * korzysta z pełnej części ścieżki URL
+    * wymaga konfiguracji po stronie serwera, żeby zwracał tą samą stronę HTML niezależnie od ścieżki
+  * `HashRouter`
+    * do nawigacji używa części hash z URL np. `#/users/guest`
+    * konfiguracja serwera nie jest wymagana
+  * `MemoryRouter` - przechowuje informacje o URL i jego zimanach w pamięci. Nie modyfikuje przy tym adresu strony pasku adresu przeglądarki
 
 # TypeScript
 
 ---
 
 # JavaScript
+
+---
+
+* `Basics`
+  * `JavaScript`
+    * skryptowy(programy automatyzujące zadania uruchamiane w środowiskach skryptowych wykonywane jeden po drugim)
+    * oraz wieloparadygmatowy język programowania (jest wiele sposobów na rozwiązanie tego samego programu)
+    * stworzony przez firmę Netscape
+* `EcmaScript`
+  * ECMA-European Association for Standardizing Information and Communication Systems
+  * EcmaScript - ustandaryzowana specyfikacja obiektowego języka programowania
+  * Najbardziej znane implementacje: JavaScript, JScript, ActionScript
+* `ES6`
+  * TODO
+* `Vanilla JavaScript` - kod JavaScriptowy pisany bez żadnego frameworka
+  * `Proxy` - to obiekt w javascript, który opakowuje obiekt lub funkcję i monitoruje go za pomocą czegoś, co nazywa się target. Nadaje dowolnemu obiektowi nową funkcjonalność, taką, że przy próbie modyfikacji tego obiektu uruchamiana jest funkcja walidująca. let person= new Proxy(person1,ageValidate)
+  * `function*` - TODO
+  * `strict mode` - tryb bardziej restrykcyjny
+    * `"use strict";`
+    * wyrzuca błędy JS gdzie w zwykłym trybie są to błędy ciche
+    * naprawie błędy optymalizacyjne JS'a - kod jest szybszy
+    * poprawia komunikowanie o błędach
+    * można go definiować dla całej aplikacji lub dla konkretnych funkcji
+    * zmiany przewidujące ewolucję ES
+  * `eval()`
+    * uruchamia kod JS'owy zapisany stringiem
+    * bardzo niebezpieczne
 
 ---
 ## Tips
