@@ -11,6 +11,7 @@
 * https://tworcastron.pl/kursy/node-kurs-kompletny
 * fiszki aktualna strona react: 47
 * web dev simplified forad map frontend and backend
+* tematy z https://kursjs.pl
 
 # Self improve projects
 * Next.js
@@ -215,7 +216,43 @@
   * TODO
 * `Vanilla JavaScript` - kod JavaScriptowy pisany bez żadnego frameworka
   * `Proxy` - to obiekt w javascript, który opakowuje obiekt lub funkcję i monitoruje go za pomocą czegoś, co nazywa się target. Nadaje dowolnemu obiektowi nową funkcjonalność, taką, że przy próbie modyfikacji tego obiektu uruchamiana jest funkcja walidująca. let person= new Proxy(person1,ageValidate)
-  * `function*` - TODO
+  * `iterators`
+
+
+    const tab = ["Ala", "Bala", "Cala"];
+    const iterator = tab[Symbol.iterator]();
+
+    console.log(iterator.next()); //{value: "Ala", done: false}
+    console.log(iterator.next()); //{value: "Bala", done: false}
+    console.log(iterator.next()); //{value: "Cala", done: false}
+    console.log(iterator.next()); //{value: undefined, done: true}
+  * `generators`
+
+
+    function* generateId() {
+      let id = 1
+      
+      while (true) {
+        const increment = yield id
+        if (increment != null) {
+          id = id + increment
+        } else {
+          id++
+        }
+      }
+    }
+    
+    const gen = generateId()
+    console.log(gen.next().value)
+    // 1
+    console.log(gen.next(3).value)
+    // 4
+    console.log(gen.next().value)
+    // 5
+  * `Object`
+    * `Object.keys(ob)` - Zwraca tablicę kluczy danego obiektu
+    * `Object.values(ob)` - Zwraca tablicę wartości danego obiektu
+    * `Object.entries(ob)` - Zwraca tablicę par [klucz-wartość]
   * `strict mode` - tryb bardziej restrykcyjny
     * `"use strict";`
     * wyrzuca błędy JS gdzie w zwykłym trybie są to błędy ciche
@@ -231,7 +268,9 @@
 ## Tips
 * conditional array element
 
-      const array = ['first', ...(true ? ['second'] : [])]
+
+    const array = ['first', ...(true ? ['second'] : [])]
 * conditional object property
 
-      const element = {...(true && {a: 5})}
+
+    const element = {...(true && {a: 5})}
