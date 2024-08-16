@@ -1,4 +1,4 @@
-# Must learn from
+# Must learn
 
 ---
 * https://www.linkedin.com/feed/update/urn:li:activity:7217405412189323265?utm_source=share&utm_medium=member_desktop
@@ -9,13 +9,10 @@
 * https://www.epicweb.dev/
 * https://dev.to/coursesity/react-libraries-to-use-in-2021-15-top-picks-37d7
 * https://tworcastron.pl/kursy/node-kurs-kompletny
-* fiszki aktualna strona react: 47
+* fiszki JS
 * web dev simplified forad map frontend and backend
 * tematy z https://kursjs.pl
-
-# Self improve projects
-* Next.js
-* python - GoDot game
+* https://developer.mozilla.org/en-US/docs/Web/JavaScript - wszystko
 
 # YouTube channels
 
@@ -28,7 +25,7 @@
 # Acronyms
 
 ---
-* Development process
+* `Development process`
   * [SOLID in React](https://konstantinlebedev.com/solid-in-react/)
     * Single responsibility principle (SRP) - “every function/module/component should do exactly one thing”
     * Open-closed principle (OCP) -  structuring our components in a way that allows them to be extended without changing their original source code
@@ -52,28 +49,28 @@
     * Przyjęcie tych konceptów pozwala na tworzenie bardziej zorganizowanych, spójnych i łatwych w utrzymaniu modeli domenowych, które są lepiej zrozumiałe dla wszystkich członków zespołu projektowego.
     * pozwala na budowanie aplikacji, które są łatwiejsze do testowania, rozbudowy i utrzymania, gdyż są one silnie sprzężone z regułami i procesami biznesowymi
     * Sprawia, że w przypadku zmian w biznesie, zwykle wystarczy jedynie niewielka modyfikacja kodu
-* Security
-  * CSP - Content Security Policy - zapobiega cross-site scripting, clickjacking i innym atakom polegającym na wstrzykiwaniu kodu. Twórca aplikacji webowej określa z jakich źródeł może aplikacja pobierać zasoby. Nagłówek HTTP: `Content-Security-Policy` w odpowiedzi serwera. Webowo określa DNSy z których przeglądarka może pobierać wszelkie zasoby
-  * SOP - Same Origin Policy - polityka tego samego pochodzenia: Funkcja zabezpieczeń przeglądarki, która ogranicza sposób uzyskiwania dostępu do zasobów przez różne aplikacje internetowe. Ta zasada wymaga, aby zasób pochodził z tego samego źródła, co aplikacja internetowa próbująca uzyskać do niego dostęp.
+* `Security`
+  * `CSP` - Content Security Policy - zapobiega cross-site scripting, clickjacking i innym atakom polegającym na wstrzykiwaniu kodu. Twórca aplikacji webowej określa z jakich źródeł może aplikacja pobierać zasoby. Nagłówek HTTP: `Content-Security-Policy` w odpowiedzi serwera. Webowo określa DNSy z których przeglądarka może pobierać wszelkie zasoby
+  * `SOP` - Same Origin Policy - polityka tego samego pochodzenia: Funkcja zabezpieczeń przeglądarki, która ogranicza sposób uzyskiwania dostępu do zasobów przez różne aplikacje internetowe. Ta zasada wymaga, aby zasób pochodził z tego samego źródła, co aplikacja internetowa próbująca uzyskać do niego dostęp.
     * wyjątki:
       * obrazy, audio, video
       * css
       * skrypty ale mogą one uzyskiwać dostęp do elementów DPM i manipulować nimi tylko ze źródła w którym zostały załadowane
       * iframe
-  * CORS - Cross-Origin Resource Sharing
+  * `CORS` - Cross-Origin Resource Sharing
     * wysyła Preflight/Options przez GET/POST itp.
     * steruje SOP'em określając źródła z których można zaciągać zasoby
     * umożliwia serwerom wskazanie źródeł, z których przeglądarki mogą żądać zasobów
     * najczęściej chodzi o to, zeby zasób pochodził z tego samego źródła co aplikacja webowa próbująca uzyskać do niego dostęp
     * wykorzystuje nagłówki żądań i odpowiedzi HTTP do komunikacji z serwerem zasobów i uzyskiwania od niego pozwolenia
     * zmniejsza ryzyko CSRF cross-site request forgery
-* Atacks
-  * CSRF - cross-site request forgery
+* `Atacks`
+  * `CSRF` - cross-site request forgery
     * zabezpieczany za pomocą CORS
     * metoda ataku na serwis internetowy, nie na przeglądarkę czy to co widzi użytkownik
     * Ofiarami CSRF stają się użytkownicy nieświadomie przesyłający do serwera żądania spreparowane przez osoby o wrogich zamiarach
     * Celem crackera jest wykorzystanie uprawnień ofiary do wykonania operacji
-  * XSS - cross-site scripting
+  * `XSS` - cross-site scripting
     * zabezpieczany za pomocą CSP
     * sposób ataku na serwis WWW polegający na osadzeniu w treści atakowanej strony kodu (zazwyczaj JavaScript), który wyświetlony innym użytkownikom może doprowadzić do wykonania przez nich niepożądanych akcji
 
@@ -116,16 +113,99 @@
     yield takeEvery("USER_REQUESTED", fetchUser);
 
 * `Redux Toolkit`
-  * TODO
-* `Playwright` - TODO
-* Gatsby - TODO
-* Sentry - TODO
-* performing monitoring - TODO
-* modern build tools - TODO
-* `Enzyme` - TODO
-* `Next.js` - TODO
-* `Nest.js` - TODO
+  * `Why`
+    * "Configuring a Redux store is too complicated"
+    * "I have to add a lot of packages to get Redux to do anything useful"
+    * "Redux requires too much boilerplate code"
+  * `content`
+    * `configureStore()` - wrap createStore, simplify configuration, add tools like `redux-thunk`
+    * `createReducer()` - use `immer` lib to write simpler updates
+    * `createAction()` - generates an action creator function for the given action type string
+    * `createSlice()` - accepts an object of reducer functions, a slice name, and an initial state value, and automatically generates a slice reducer with corresponding action creators and action types
+    * `combineSlices()` - combines multiple slices into a single reducer, and allows "lazy loading" of slices after initialisation.
+    * `createAsyncThunk()` - accepts an action type string and a function that returns a promise, and generates a thunk that dispatches pending/fulfilled/rejected action types based on that promise
+    * `createEntityAdapter()` - generates a set of reusable reducers and selectors to manage normalized data in the store
+    * `createSelector()` - utility from the Reselect library, re-exported for ease of use.
+  * `RTK Query` - Redux Toolkit Query - optional addon to data fetching and caching
+    * `createApi()` - define endpoints
+    * `fetchBaseQuery()` - A small wrapper around fetch that aims to simplify requests
+    * `<ApiProvider />` - Can be used as a Provider if you do not already have a Redux store.
+    * `setupListeners()` - A utility used to enable refetchOnMount and refetchOnReconnect behaviors.
 
+* `Gatsby` - Cloud to build/deploy/host websites
+* `Sentry` - performence monitor for websites
+* `Performance Measure`
+  * `Metrics`
+    * `First Contentful Paint (FCP)`: The time it takes for the first piece of content to be rendered on the screen.
+    * `Time to Interactive (TTI)`: The time it takes for the app to become fully interactive.
+    * `React Component Render Time`: The time it takes for individual React components to render
+    * `JavaScript Bundle Size`: The size of the JavaScript files downloaded and executed by the browser.
+    * `Memory Usage`: The amount of memory used by the application.
+  * `Tools`
+    * `Chrome DevTools` - "Performance" tab
+    * `React Developer Tools` - Profiler
+    * `Lighthouse` - Chrome Addon - generates reports
+    * `Web Vitals` - Chrome Addon - get stats of FCP, TTI e.g.
+    * `Code Splitting and Lazy Loading`
+* `modern build tools`
+  * `webpack`
+    * module bundler
+    * processes your application and creates a dependency graph
+    * C++ preprocessor for Javascript
+  * `Vite`
+    * serves your code locally during development
+    * bundles your javascript, CSS, and other assets together
+    * simplifies and speeds up the build process
+    * It leverages (dźwignie) modules in the browser to load your code instantly
+    * Rollup.js under the hood on production
+    * Vite uses esbuild for dependency pre-bundling. And this leads to significant performance improvements.
+  * `Parcel`
+    * Zero Configuration Bundler
+  * `Rollup`
+    * module bundling focus is on reusable **JavaScript libraries mostly**
+    * best Tree-Shaking
+    * Highly Customizable Configuration
+    * Extensive Plugin Ecosystem
+  * `ESbuild`
+    * Blazing-Fast Builds - the fastest
+    * Command- Line Interface (CLI) & JavaScript API for programmatic integration
+    * 
+* `Next.js` - React framework for building full-stack web applications
+* `Nest.js`
+  * A progressive (additional markup to html) Node.js framework for building efficient, reliable and scalable server-side applications
+  * solve Architecture problem
+  * architecture is heavily inspired by Angular
+
+### `Tests`
+* `RTL`
+  * lightweight testing library from Kent C. Dodds
+  * centered around user interactions and observable behavior
+  * Render Components in Isolation
+  * User-Centric Testing
+* `Jest`
+  * From Facebook
+  * zero config setup
+  * snapshot testing - specific point
+  * parallel test running
+  * code coverage reporting
+  * można łączyć z innymi bilbiotekami, ponieważ jest nie jest stricte reactowy
+* `Cypress`
+  * popular end-to-end tests
+  * Visual Testing
+  * Network Traffic Control
+  * Real Browser Testing
+* `Playwright`
+  * end-to-end testing
+  * testuje kod na wielu przeglądarkach jednocześnie
+* `Mocha`
+* `Chai`
+* `Enzyme`
+  * from Airbnb
+  * rich set of tools for manipulating and inspecting React components
+* `Jasmine`
+  * BDD - behavior-driven development - testing framework
+* `Karma`
+  * Multiple Browser Support
 
 # Design Patterns
 
@@ -203,17 +283,25 @@
 
 ---
 
-* `Basics`
-  * `JavaScript`
-    * skryptowy(programy automatyzujące zadania uruchamiane w środowiskach skryptowych wykonywane jeden po drugim)
-    * oraz wieloparadygmatowy język programowania (jest wiele sposobów na rozwiązanie tego samego programu)
-    * stworzony przez firmę Netscape
+### `Basics`
+* `JavaScript`
+  * skryptowy(programy automatyzujące zadania uruchamiane w środowiskach skryptowych wykonywane jeden po drugim)
+  * oraz wieloparadygmatowy język programowania (jest wiele sposobów na rozwiązanie tego samego programu)
+  * stworzony przez firmę Netscape
 * `EcmaScript`
   * ECMA-European Association for Standardizing Information and Communication Systems
   * EcmaScript - ustandaryzowana specyfikacja obiektowego języka programowania
   * Najbardziej znane implementacje: JavaScript, JScript, ActionScript
-* `ES6`
-  * TODO
+* `ES6 (2015)`
+  * let + const
+  * arrow functions
+  * classes
+  * modules
+  * destructors
+  * default parameters in functions
+  * promises
+  * spread and rest operators
+  * template strings `${}`
 * `Vanilla JavaScript` - kod JavaScriptowy pisany bez żadnego frameworka
   * `Proxy` - to obiekt w javascript, który opakowuje obiekt lub funkcję i monitoruje go za pomocą czegoś, co nazywa się target. Nadaje dowolnemu obiektowi nową funkcjonalność, taką, że przy próbie modyfikacji tego obiektu uruchamiana jest funkcja walidująca. let person= new Proxy(person1,ageValidate)
   * `iterators`
@@ -263,6 +351,16 @@
   * `eval()`
     * uruchamia kod JS'owy zapisany stringiem
     * bardzo niebezpieczne
+  * `event loop` - nieskończona jednowątkowa pętla, która jest bazą java scripta. Składa się z call stacka, heap'a i quene
+    * `heap` - sterta - tu są przechowywane obiekty
+    * `quene` - zadania do wykonania w następnej kolejności
+    * `call stack` - stos wywołań, typów prostych i referencji - tu trafiają wszystkie wykonywane w tym momencie funkcje. Działa w LIFO
+      * `micro tasks` - Promise.resolve().then/catch/finally, kontynuacja async, requestAnimationFrame()
+      * `macro tasks` - ostatnie. setTimout, setInterval, 
+  * `optional channing`
+    * `?.`
+    * from JS ES2020
+    * frm ts 3.7
 
 ---
 ## Tips
