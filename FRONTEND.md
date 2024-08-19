@@ -25,59 +25,62 @@
 # Acronyms
 
 ---
-* `Development process`
-  * [SOLID in React](https://konstantinlebedev.com/solid-in-react/)
-    * Single responsibility principle (SRP) - “every function/module/component should do exactly one thing”
-    * Open-closed principle (OCP) -  structuring our components in a way that allows them to be extended without changing their original source code
-    * Liskov substitution principle (LSP)
-    * Interface segregation principle (ISP)
-    * Dependency inversion principle (DIP)
-  * [DRY - Don't Repeat Yourself](https://devcode.pl/dry-kiss-yagni/#Dont_Repeat_Yourself/)
-  * [YAGNI - You Aren't Gonna Need It](https://devcode.pl/dry-kiss-yagni/#You_Arent_Gonna_Need_It/)
-    * Don't write code that you aren't use
-  * [KISS - Keep It Simple Stupid](https://devcode.pl/dry-kiss-yagni/#Keep_It_Simple_Stupid)
-  * TDD - Test Driven Development - tests first, write code only to green tests, then refactor tests and code, then repeat
-  * DDD
-    * koncentruje się na głębokim zrozumieniu specyfiki działalności
-    * założeniem jest stworzenie modelu dziedziny, czyli abstrakcyjnego reprezentanta biznesowej rzeczywistości, który będzie w pełni zgodny z realiami przedsiębiorstwa
-    * Promuje silną współpracę między zespołem deweloperskim a ekspertami od strony biznesowej
-    * "budowanie bloków" odnosi się do fundamentalnych elementów, z których składają się modele domenowe: agregatów, encji i wartości obiektów
-    * Encje są obiektami z unikalną tożsamością, które pozwalają na śledzenie ich przez cykl życia aplikacji, nawet jeśli ich atrybuty ulegną zmianie
-    * Wartości obiektów, w przeciwieństwie do encji, definiowane są przez ich atrybuty i nie posiadają własnej tożsamości
-    * Agregaty zaś grupują jeden lub więcej obiektów domenowych (encje i wartości obiektów) w większe całości, określając granice i zasady ich współpracy
-    * Każdy agregat posiada korzeń agregatu, który jest encją służącą jako punkt wejścia do agregatu i gwarantuje spójność całej grupy
-    * Przyjęcie tych konceptów pozwala na tworzenie bardziej zorganizowanych, spójnych i łatwych w utrzymaniu modeli domenowych, które są lepiej zrozumiałe dla wszystkich członków zespołu projektowego.
-    * pozwala na budowanie aplikacji, które są łatwiejsze do testowania, rozbudowy i utrzymania, gdyż są one silnie sprzężone z regułami i procesami biznesowymi
-    * Sprawia, że w przypadku zmian w biznesie, zwykle wystarczy jedynie niewielka modyfikacja kodu
-* `Security`
-  * `CSP` - Content Security Policy - zapobiega cross-site scripting, clickjacking i innym atakom polegającym na wstrzykiwaniu kodu. Twórca aplikacji webowej określa z jakich źródeł może aplikacja pobierać zasoby. Nagłówek HTTP: `Content-Security-Policy` w odpowiedzi serwera. Webowo określa DNSy z których przeglądarka może pobierać wszelkie zasoby
-  * `SOP` - Same Origin Policy - polityka tego samego pochodzenia: Funkcja zabezpieczeń przeglądarki, która ogranicza sposób uzyskiwania dostępu do zasobów przez różne aplikacje internetowe. Ta zasada wymaga, aby zasób pochodził z tego samego źródła, co aplikacja internetowa próbująca uzyskać do niego dostęp.
-    * wyjątki:
-      * obrazy, audio, video
-      * css
-      * skrypty ale mogą one uzyskiwać dostęp do elementów DPM i manipulować nimi tylko ze źródła w którym zostały załadowane
-      * iframe
-  * `CORS` - Cross-Origin Resource Sharing
-    * wysyła Preflight/Options przez GET/POST itp.
-    * steruje SOP'em określając źródła z których można zaciągać zasoby
-    * umożliwia serwerom wskazanie źródeł, z których przeglądarki mogą żądać zasobów
-    * najczęściej chodzi o to, zeby zasób pochodził z tego samego źródła co aplikacja webowa próbująca uzyskać do niego dostęp
-    * wykorzystuje nagłówki żądań i odpowiedzi HTTP do komunikacji z serwerem zasobów i uzyskiwania od niego pozwolenia
-    * zmniejsza ryzyko CSRF cross-site request forgery
-* `Atacks`
-  * `CSRF` - cross-site request forgery
-    * zabezpieczany za pomocą CORS
-    * metoda ataku na serwis internetowy, nie na przeglądarkę czy to co widzi użytkownik
-    * Ofiarami CSRF stają się użytkownicy nieświadomie przesyłający do serwera żądania spreparowane przez osoby o wrogich zamiarach
-    * Celem crackera jest wykorzystanie uprawnień ofiary do wykonania operacji
-  * `XSS` - cross-site scripting
-    * zabezpieczany za pomocą CSP
-    * sposób ataku na serwis WWW polegający na osadzeniu w treści atakowanej strony kodu (zazwyczaj JavaScript), który wyświetlony innym użytkownikom może doprowadzić do wykonania przez nich niepożądanych akcji
+### `Development process`
+
+* [SOLID in React](https://konstantinlebedev.com/solid-in-react/)
+  * Single responsibility principle (SRP) - “every function/module/component should do exactly one thing”
+  * Open-closed principle (OCP) -  structuring our components in a way that allows them to be extended without changing their original source code
+  * Liskov substitution principle (LSP)
+  * Interface segregation principle (ISP)
+  * Dependency inversion principle (DIP)
+* [DRY - Don't Repeat Yourself](https://devcode.pl/dry-kiss-yagni/#Dont_Repeat_Yourself/)
+* [YAGNI - You Aren't Gonna Need It](https://devcode.pl/dry-kiss-yagni/#You_Arent_Gonna_Need_It/)
+  * Don't write code that you aren't use
+* [KISS - Keep It Simple Stupid](https://devcode.pl/dry-kiss-yagni/#Keep_It_Simple_Stupid)
+* `TDD` - Test Driven Development - tests first, write code only to green tests, then refactor tests and code, then repeat
+* `DDD`
+  * koncentruje się na głębokim zrozumieniu specyfiki działalności
+  * założeniem jest stworzenie modelu dziedziny, czyli abstrakcyjnego reprezentanta biznesowej rzeczywistości, który będzie w pełni zgodny z realiami przedsiębiorstwa
+  * Promuje silną współpracę między zespołem deweloperskim a ekspertami od strony biznesowej
+  * "budowanie bloków" odnosi się do fundamentalnych elementów, z których składają się modele domenowe: agregatów, encji i wartości obiektów
+  * Encje są obiektami z unikalną tożsamością, które pozwalają na śledzenie ich przez cykl życia aplikacji, nawet jeśli ich atrybuty ulegną zmianie
+  * Wartości obiektów, w przeciwieństwie do encji, definiowane są przez ich atrybuty i nie posiadają własnej tożsamości
+  * Agregaty zaś grupują jeden lub więcej obiektów domenowych (encje i wartości obiektów) w większe całości, określając granice i zasady ich współpracy
+  * Każdy agregat posiada korzeń agregatu, który jest encją służącą jako punkt wejścia do agregatu i gwarantuje spójność całej grupy
+  * Przyjęcie tych konceptów pozwala na tworzenie bardziej zorganizowanych, spójnych i łatwych w utrzymaniu modeli domenowych, które są lepiej zrozumiałe dla wszystkich członków zespołu projektowego.
+  * pozwala na budowanie aplikacji, które są łatwiejsze do testowania, rozbudowy i utrzymania, gdyż są one silnie sprzężone z regułami i procesami biznesowymi
+  * Sprawia, że w przypadku zmian w biznesie, zwykle wystarczy jedynie niewielka modyfikacja kodu
+
+### `Security`
+* `CSP` - Content Security Policy - zapobiega cross-site scripting, clickjacking i innym atakom polegającym na wstrzykiwaniu kodu. Twórca aplikacji webowej określa z jakich źródeł może aplikacja pobierać zasoby. Nagłówek HTTP: `Content-Security-Policy` w odpowiedzi serwera. Webowo określa DNSy z których przeglądarka może pobierać wszelkie zasoby
+* `SOP` - Same Origin Policy - polityka tego samego pochodzenia: Funkcja zabezpieczeń przeglądarki, która ogranicza sposób uzyskiwania dostępu do zasobów przez różne aplikacje internetowe. Ta zasada wymaga, aby zasób pochodził z tego samego źródła, co aplikacja internetowa próbująca uzyskać do niego dostęp.
+  * wyjątki:
+    * obrazy, audio, video
+    * css
+    * skrypty ale mogą one uzyskiwać dostęp do elementów DPM i manipulować nimi tylko ze źródła w którym zostały załadowane
+    * iframe
+* `CORS` - Cross-Origin Resource Sharing
+  * wysyła Preflight/Options przez GET/POST itp.
+  * steruje SOP'em określając źródła z których można zaciągać zasoby
+  * umożliwia serwerom wskazanie źródeł, z których przeglądarki mogą żądać zasobów
+  * najczęściej chodzi o to, zeby zasób pochodził z tego samego źródła co aplikacja webowa próbująca uzyskać do niego dostęp
+  * wykorzystuje nagłówki żądań i odpowiedzi HTTP do komunikacji z serwerem zasobów i uzyskiwania od niego pozwolenia
+  * zmniejsza ryzyko CSRF cross-site request forgery
+### `Atacks`
+* `CSRF` - cross-site request forgery
+  * zabezpieczany za pomocą CORS
+  * metoda ataku na serwis internetowy, nie na przeglądarkę czy to co widzi użytkownik
+  * Ofiarami CSRF stają się użytkownicy nieświadomie przesyłający do serwera żądania spreparowane przez osoby o wrogich zamiarach
+  * Celem crackera jest wykorzystanie uprawnień ofiary do wykonania operacji
+* `XSS` - cross-site scripting
+  * zabezpieczany za pomocą CSP
+  * sposób ataku na serwis WWW polegający na osadzeniu w treści atakowanej strony kodu (zazwyczaj JavaScript), który wyświetlony innym użytkownikom może doprowadzić do wykonania przez nich niepożądanych akcji
 
 
 # Tech stack / Tools
 
 ---
+
 * `Redux`
   * stan aplikacji jest przechowywany w 1 miejscu jako drzewo obiektów, którym jest `store`
   * `akcje` to obiekty opisujące CO zmieniło się w stanie aplikacji. Wysyłane są przez `store.dispatch()`
@@ -169,7 +172,6 @@
   * `ESbuild`
     * Blazing-Fast Builds - the fastest
     * Command- Line Interface (CLI) & JavaScript API for programmatic integration
-    * 
 * `Next.js` - React framework for building full-stack web applications
 * `Nest.js`
   * A progressive (additional markup to html) Node.js framework for building efficient, reliable and scalable server-side applications
@@ -303,8 +305,8 @@
   * spread and rest operators
   * template strings `${}`
 * `Vanilla JavaScript` - kod JavaScriptowy pisany bez żadnego frameworka
-  * `Proxy` - to obiekt w javascript, który opakowuje obiekt lub funkcję i monitoruje go za pomocą czegoś, co nazywa się target. Nadaje dowolnemu obiektowi nową funkcjonalność, taką, że przy próbie modyfikacji tego obiektu uruchamiana jest funkcja walidująca. let person= new Proxy(person1,ageValidate)
-  * `iterators`
+* `Proxy` - to obiekt w javascript, który opakowuje obiekt lub funkcję i monitoruje go za pomocą czegoś, co nazywa się target. Nadaje dowolnemu obiektowi nową funkcjonalność, taką, że przy próbie modyfikacji tego obiektu uruchamiana jest funkcja walidująca. let person= new Proxy(person1,ageValidate)
+* `iterators`
 
 
     const tab = ["Ala", "Bala", "Cala"];
@@ -314,7 +316,7 @@
     console.log(iterator.next()); //{value: "Bala", done: false}
     console.log(iterator.next()); //{value: "Cala", done: false}
     console.log(iterator.next()); //{value: undefined, done: true}
-  * `generators`
+* `generators`
 
 
     function* generateId() {
@@ -337,30 +339,87 @@
     // 4
     console.log(gen.next().value)
     // 5
-  * `Object`
-    * `Object.keys(ob)` - Zwraca tablicę kluczy danego obiektu
-    * `Object.values(ob)` - Zwraca tablicę wartości danego obiektu
-    * `Object.entries(ob)` - Zwraca tablicę par [klucz-wartość]
-  * `strict mode` - tryb bardziej restrykcyjny
-    * `"use strict";`
-    * wyrzuca błędy JS gdzie w zwykłym trybie są to błędy ciche
-    * naprawie błędy optymalizacyjne JS'a - kod jest szybszy
-    * poprawia komunikowanie o błędach
-    * można go definiować dla całej aplikacji lub dla konkretnych funkcji
-    * zmiany przewidujące ewolucję ES
-  * `eval()`
-    * uruchamia kod JS'owy zapisany stringiem
-    * bardzo niebezpieczne
-  * `event loop` - nieskończona jednowątkowa pętla, która jest bazą java scripta. Składa się z call stacka, heap'a i quene
-    * `heap` - sterta - tu są przechowywane obiekty
-    * `quene` - zadania do wykonania w następnej kolejności
-    * `call stack` - stos wywołań, typów prostych i referencji - tu trafiają wszystkie wykonywane w tym momencie funkcje. Działa w LIFO
-      * `micro tasks` - Promise.resolve().then/catch/finally, kontynuacja async, requestAnimationFrame()
-      * `macro tasks` - ostatnie. setTimout, setInterval, 
-  * `optional channing`
-    * `?.`
-    * from JS ES2020
-    * frm ts 3.7
+* `Object`
+  * `Object.keys(ob)` - Zwraca tablicę kluczy danego obiektu
+  * `Object.values(ob)` - Zwraca tablicę wartości danego obiektu
+  * `Object.entries(ob)` - Zwraca tablicę par [klucz-wartość]
+* `strict mode` - tryb bardziej restrykcyjny
+  * `"use strict";`
+  * wyrzuca błędy JS gdzie w zwykłym trybie są to błędy ciche
+  * naprawie błędy optymalizacyjne JS'a - kod jest szybszy
+  * poprawia komunikowanie o błędach
+  * można go definiować dla całej aplikacji lub dla konkretnych funkcji
+  * zmiany przewidujące ewolucję ES
+* `eval()`
+  * uruchamia kod JS'owy zapisany stringiem
+  * bardzo niebezpieczne
+* `event loop` - nieskończona jednowątkowa pętla, która jest bazą java scripta. Składa się z call stacka, heap'a i quene
+  * `heap` - sterta - tu są przechowywane obiekty
+  * `quene` - zadania do wykonania w następnej kolejności
+  * `call stack` - stos wywołań, typów prostych i referencji - tu trafiają wszystkie wykonywane w tym momencie funkcje. Działa w LIFO
+    * `micro tasks` - Promise.resolve().then/catch/finally, kontynuacja async, requestAnimationFrame()
+    * `macro tasks` - ostatnie. setTimout, setInterval, 
+* `optional channing`
+  * `?.`
+  * from JS ES2020
+  * frm ts 3.7
+* `czyszczenie tablicy`
+  * `array = []`
+  * `array.lenght = 0`
+  * `array.splice(0, array.lenght)`
+* `let vs var`
+  * `var` - function scope
+  * `let` - block scope
+  * wszystkie deklaracje (function, var, let, const, class) są hoistowane
+  * ale tylko `var` są inicjalizowane przez undefined
+  * `let` i `const` pozostają niezainicjalizowane
+
+
+    function func() {
+      console.log(a); // undefined
+      console.log(b); // ReferenceError
+      if() {
+        var a = 1;
+        var b = 2;
+      }
+      console.log(a); // 1
+      console.log(b); // ReferenceError
+    }
+* `typy danych w JS`
+  * Undefined
+  * Boolean
+  * Number
+  * String
+  * BigInt
+  * Symbol
+  * Object
+  * Null
+  * Function - typeof wskazuje na object, ponieważ każdy konstruktor funkcji dziedziczy po konstruktorze Object
+* `jak utworzyć obiekt`
+  * konstruktorem: `function Poo(title)(this.title = title)`; `new Poo('cos')`
+  * Object Literal: `{title: 'cos'}`
+  * new Object(): `const poo = new Object()`; `poo.title = 'cos'`
+  * Object.create: `const poo = Object.create()`; `poo.title = 'cos'`
+* `falsy values` - są traktowane jak false przy porównaniach, np. if
+  * false - domyślna wartość boolean
+  * null - brak wartości
+  * undefined - wartość niezdefiniowana
+  * NaN - nie jest liczbą, np.: `"abc" / 4`
+  * "" - pusty string
+  * 0 - liczba 0
+  * -0 - liczba -0
+  * 0n - wartość 0 jako BigInt
+* `null vs undefined`
+  * undefined - zmienna zadeklarowana ale nie posiada jeszcze wartości
+  * null - wartość do przypisywania do zmiennej
+* `spread operator`
+  * rozwija wyrażenie w miejscach potrzebującytch wiele argumentów/elementów
+* `rest operator`
+  * używany do destrukturyzacji obiektów i tablic
+* `tworzenie URL'a`
+  * `encodeURI(uri)`
+  * koduje wszystkie znaki z wyjątkiem specjalnych: `<,/?:@&=+$#>`
+  * dekoduje się poprzez `decodeURI(encodedURI)`
 
 ---
 ## Tips
