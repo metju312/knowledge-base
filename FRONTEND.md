@@ -9,10 +9,16 @@
 * https://www.epicweb.dev/
 * https://dev.to/coursesity/react-libraries-to-use-in-2021-15-top-picks-37d7
 * https://tworcastron.pl/kursy/node-kurs-kompletny
-* fiszki JS
+* fiszki JS, teraz 13 - TODO
 * web dev simplified forad map frontend and backend
 * tematy z https://kursjs.pl
 * https://developer.mozilla.org/en-US/docs/Web/JavaScript - wszystko
+
+# Courses
+* AWS software development engineer
+* Google Machine Learning / Data Scientist Course
+* Generative AI course by Google
+* Domain Driven Design & Event Storming course
 
 # YouTube channels
 
@@ -172,11 +178,43 @@
   * `ESbuild`
     * Blazing-Fast Builds - the fastest
     * Command- Line Interface (CLI) & JavaScript API for programmatic integration
+  * Fastify - TODO
 * `Next.js` - React framework for building full-stack web applications
 * `Nest.js`
   * A progressive (additional markup to html) Node.js framework for building efficient, reliable and scalable server-side applications
   * solve Architecture problem
   * architecture is heavily inspired by Angular
+* `Vercel` - TODO
+* `Monorepo`
+  * Lerna - TODO
+  * TODO
+* `Microfrontends`
+  * Module Federation - TODO
+  * TODO
+* `Django` - web framework using python to write apps
+* `CSS`
+  * Tailwind - TODO
+  * LESS - TODO
+  * SCSS - TODO
+  * PostCSS - TODO
+* `AWS` - TODO
+* `GCP` - TODO
+* `Firebase` - TODO
+* `OpenAI API for frontend dev` - TODO
+* `Databases`
+  * PostgresSQL - TODO
+  * MySQL - TODO
+  * CosmosDB - TODO
+  * DynamoDB - TODO
+  * RDS - TODO
+  * MongoDB - TODO
+  * CouchDB - TODO
+  * TODO
+* `GraphQL` - TODO
+* `REST` - TODO
+* `Lambda` - TODO
+* `Docker` - TODO
+* `Websockets` - TODO
 
 ### `Tests`
 * `RTL`
