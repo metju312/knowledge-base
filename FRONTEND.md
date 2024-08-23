@@ -9,10 +9,12 @@
 * https://www.epicweb.dev/
 * https://dev.to/coursesity/react-libraries-to-use-in-2021-15-top-picks-37d7
 * https://tworcastron.pl/kursy/node-kurs-kompletny
+* https://www.patterns.dev/react/hooks-pattern - dokończyć
 * fiszki JS, teraz 13 - TODO
 * web dev simplified forad map frontend and backend
 * tematy z https://kursjs.pl
 * https://developer.mozilla.org/en-US/docs/Web/JavaScript - wszystko
+* > project w najnowszym tech w next.js - TODO
 
 # Courses
 * AWS software development engineer
@@ -43,6 +45,14 @@
 * [YAGNI - You Aren't Gonna Need It](https://devcode.pl/dry-kiss-yagni/#You_Arent_Gonna_Need_It/)
   * Don't write code that you aren't use
 * [KISS - Keep It Simple Stupid](https://devcode.pl/dry-kiss-yagni/#Keep_It_Simple_Stupid)
+* `TDA` - Tell Don't Ask - change state not ask in what state it is
+* `CUPID`
+  * `Composable` - Możliwość składania, "plays well with others"
+  * `Unix` - does one thing well
+  * `Predictable` - does what you expect
+  * `Idiomatic` - feels natural
+  * `Domain-based` - the solution domain models the problem domain in language and structure. The code should be compatible with its domain, using the problem domain’s language
+* `GRASP` - TODO
 * `TDD` - Test Driven Development - tests first, write code only to green tests, then refactor tests and code, then repeat
 * `DDD`
   * koncentruje się na głębokim zrozumieniu specyfiki działalności
@@ -56,6 +66,7 @@
   * Przyjęcie tych konceptów pozwala na tworzenie bardziej zorganizowanych, spójnych i łatwych w utrzymaniu modeli domenowych, które są lepiej zrozumiałe dla wszystkich członków zespołu projektowego.
   * pozwala na budowanie aplikacji, które są łatwiejsze do testowania, rozbudowy i utrzymania, gdyż są one silnie sprzężone z regułami i procesami biznesowymi
   * Sprawia, że w przypadku zmian w biznesie, zwykle wystarczy jedynie niewielka modyfikacja kodu
+
 
 ### `Security`
 * `CSP` - Content Security Policy - zapobiega cross-site scripting, clickjacking i innym atakom polegającym na wstrzykiwaniu kodu. Twórca aplikacji webowej określa z jakich źródeł może aplikacja pobierać zasoby. Nagłówek HTTP: `Content-Security-Policy` w odpowiedzi serwera. Webowo określa DNSy z których przeglądarka może pobierać wszelkie zasoby
@@ -81,7 +92,7 @@
 * `XSS` - cross-site scripting
   * zabezpieczany za pomocą CSP
   * sposób ataku na serwis WWW polegający na osadzeniu w treści atakowanej strony kodu (zazwyczaj JavaScript), który wyświetlony innym użytkownikom może doprowadzić do wykonania przez nich niepożądanych akcji
-
+* https://www.bomberbot.com/lessons/cors-csp-and-other-web-security-concepts-an-introduction-for-developers/ TODO
 
 # Tech stack / Tools
 
@@ -140,7 +151,6 @@
     * `fetchBaseQuery()` - A small wrapper around fetch that aims to simplify requests
     * `<ApiProvider />` - Can be used as a Provider if you do not already have a Redux store.
     * `setupListeners()` - A utility used to enable refetchOnMount and refetchOnReconnect behaviors.
-
 * `Gatsby` - Cloud to build/deploy/host websites
 * `Sentry` - performence monitor for websites
 * `Performance Measure`
@@ -215,6 +225,9 @@
 * `Lambda` - TODO
 * `Docker` - TODO
 * `Websockets` - TODO
+* `Strapi` - TODO
+* `Sanity` - TODO
+* `Hygraph` - TODO
 
 ### `Tests`
 * `RTL`
@@ -237,6 +250,7 @@
 * `Playwright`
   * end-to-end testing
   * testuje kod na wielu przeglądarkach jednocześnie
+* `Vitest` - todo
 * `Mocha`
 * `Chai`
 * `Enzyme`
@@ -469,3 +483,40 @@
 
 
     const element = {...(true && {a: 5})}
+* literal string union from object
+
+
+    const carsDictionary = {
+      AUDI: 'Audi',
+      BMW: 'BMW',
+    } as const;
+
+    type CarName = typeof carsDictionary[keyof typeof carsDictionary];
+
+* literal string union from array of strings
+
+
+    const fruitsArray = ['apple', 'banana', 'orange', 'watermelon'] as const;
+
+    type Fruit = typeof fruitsArray[number];
+
+---
+# Next.js
+
+
+---
+
+### `Setup`
+* `npx create-next-app@latest` - create app in projects folder
+* Use pnpm because is faster and better than yarn and npm
+  * `npm install -g pnpm`
+* `App Router vs Pages Router`
+  * `App Router`
+    * is a newer router that allows you to use React's latest features, such as Server Components and Streaming
+    * `use app folder`
+    * [routing convention](https://nextjs.org/docs/getting-started/project-structure#app-routing-conventions)
+  * `Pages Router`
+    * is the original Next.js router, which allowed you to build server-rendered React applications and continues to be supported for older Next.js applications.
+    * use `pages folder
+* [important root folder files](https://nextjs.org/docs/getting-started/project-structure#top-level-files)
+* https://nextjs.org/learn/dashboard-app/getting-started potem TODO
