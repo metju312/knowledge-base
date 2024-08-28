@@ -7,7 +7,8 @@
 
 ---
 
-`Składnia`
+### `Code`
+
 * `@export var pipe_scene : PackedScene` - pozwala na instantowanie konkretnej sceny w innej scenie poprzez: `var pipe = pipe_scene.instantiate()`
 * `Array`
 
@@ -30,6 +31,7 @@
     * click `Access as Unique Name`
     * `%node path`
   * `$".."` - parent node
+* 
 * `move node`
   * `position = Vector2(100, 200)`
 * `rotate node`
@@ -39,10 +41,21 @@
 * `inputs`
   * `Input.is_action_pressed("left")`
 
-`Life cycle`
+### instantiate(): PackedScene
+    var laser_scene: PackedScene = preload("res://scenes/projectiles/laser.tscn")
+    var laser = laser_scene.instantiate()
+    laser.position = pos
+    add_child(laser) 
+
+### get_children(): ArrayOfChildrenNodes
+    var laser_markers = $LaserStartPositions.get_children()
+    var selected_laser = laser_markers[randi() % laser_markers.size()]
+    laser.emit(selected_laser.global_position)
+
+### `Life cycle`
 * `func _ready():` - uruchamiana raz na początku
 * `func _physics_process(delta):` - pętla uruchamiana w dokładnie takich samych momentach na każdym komputerze - do obsługi fizyki
-* 
+
 ---
 
 `Komunikacja pomiędzy Nodami`
@@ -65,7 +78,7 @@
 * `Area2D`
   * check if another body entered
   * can be moved
-  * e.g. player entered a house 
+  * e.g. player entered a house, laser
 * `StaticBody2D`
   * others collide with it
   * not supposed to be moved
@@ -77,7 +90,8 @@
   * dla poruszających się postaci i wrogów
   * player e.g. all enemies
   * for movement use `move_and_slide()` and `velocity` not possition
-* 
+* `Marker2D`
+  * node posiadający tylko lokalizację (position i global_position(tego używać))
 ---
 
 # Project > Project Settings

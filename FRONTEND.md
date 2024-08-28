@@ -188,16 +188,26 @@
   * `ESbuild`
     * Blazing-Fast Builds - the fastest
     * Command- Line Interface (CLI) & JavaScript API for programmatic integration
-  * Fastify - TODO
+  * Fastify - fastest web framework for node.js
 * `Next.js` - React framework for building full-stack web applications
 * `Nest.js`
   * A progressive (additional markup to html) Node.js framework for building efficient, reliable and scalable server-side applications
   * solve Architecture problem
   * architecture is heavily inspired by Angular
-* `Vercel` - TODO
-* `Monorepo`
-  * Lerna - TODO
-  * TODO
+* `Vercel` - cloud platform for build and release web apps 
+* `Monorepo build systems`
+  * Lerna - build system for JS monorepo
+  * Bit
+  * pnpm workspace
+  * yarn workspaces
+  * NX - next gen build system, support monorepo, powerful integrations
+  * Rush
+  * Turborepo
+    * purchesed by Vercel
+    * incremental build, skip what is computed
+    * hashing
+    * remote caching with teammates
+    * parallel execution
 * `Microfrontends`
   * Module Federation - TODO
   * TODO
@@ -225,9 +235,16 @@
 * `Lambda` - TODO
 * `Docker` - TODO
 * `Websockets` - TODO
-* `Strapi` - TODO
 * `Sanity` - TODO
 * `Hygraph` - TODO
+* `Headless CMS` - Content Management System - Headless - dont have frontend (head). Can have multiple frontends because provide api for data fetching
+  * `Strapi`
+    * Open-source
+    * self-hosted
+    * or clouded
+  * `Builder.io`
+    * design to code
+    * like figma with code generation
 
 ### `Tests`
 * `RTL`
@@ -305,7 +322,7 @@
 
 ---
 
-## Basics
+### `Basics`
 * `prop drilling` - konieczność przekazywania propsów wiele poziomów w drzewie DOM. Zamiast tego można użyć np. Context/Redux
 * `komponent kontrolowany` - react stanem kontroluje stan pól formularza (poprzez atrybut value), które normalnie (gdy są niekontrolowane) mają własny stan
 * `HoC` - opakowuje komponent w kontenter mający dodatkowe możliwości
@@ -328,6 +345,14 @@
     * do nawigacji używa części hash z URL np. `#/users/guest`
     * konfiguracja serwera nie jest wymagana
   * `MemoryRouter` - przechowuje informacje o URL i jego zimanach w pamięci. Nie modyfikuje przy tym adresu strony pasku adresu przeglądarki
+
+---
+
+### `React Versions`
+* `17`
+  * TODO
+* `18`
+  * TODO
 
 # TypeScript
 
@@ -507,7 +532,8 @@
 ---
 
 ### `Setup`
-* `npx create-next-app@latest` - create app in projects folder
+* `sudo pnpm create next-app@latest <project-name>` - create app in projects folder
+* `sudo chown -R msadlo next-js-ai-project` - recursively change owner of folders files to actual user - dont need to use sudo any more
 * Use pnpm because is faster and better than yarn and npm
   * `npm install -g pnpm`
 * `App Router vs Pages Router`
@@ -518,5 +544,16 @@
   * `Pages Router`
     * is the original Next.js router, which allowed you to build server-rendered React applications and continues to be supported for older Next.js applications.
     * use `pages folder
+* `pnpm dev` - run dev server with live edit
 * [important root folder files](https://nextjs.org/docs/getting-started/project-structure#top-level-files)
 * https://nextjs.org/learn/dashboard-app/getting-started potem TODO
+
+
+---
+
+# Bash
+
+---
+
+* `ls -lah` - show list of files with permisions and owner users 
+* `whereis pnpm` - show path of program
