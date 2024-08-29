@@ -526,8 +526,8 @@
     type Fruit = typeof fruitsArray[number];
 
 ---
-# Next.js
 
+# Next.js
 
 ---
 
@@ -545,6 +545,23 @@
     * is the original Next.js router, which allowed you to build server-rendered React applications and continues to be supported for older Next.js applications.
     * use `pages folder
 * `pnpm dev` - run dev server with live edit
+* `pnpm add prettier prettier-plugin-tailwindcss` - add prietter
+* `.prettierrc`
+
+
+    {
+      "arrowParens": "avoid",
+      "singleQuote": true,
+      "jsxSingleQuote": true,
+      "tabWidth": 2,
+      "trailingComma": "none",
+      "semi": false,
+      "proseWrap": "always",
+      "printWidth": 80,
+      "plugins": ["prettier-plugin-tailwindcss"]
+    }
+
+
 * [important root folder files](https://nextjs.org/docs/getting-started/project-structure#top-level-files)
 * https://nextjs.org/learn/dashboard-app/getting-started potem TODO
 
@@ -557,3 +574,16 @@
 
 * `ls -lah` - show list of files with permisions and owner users 
 * `whereis pnpm` - show path of program
+
+
+---
+
+# VSC - Visual Studio Code
+
+---
+
+# Shortcuts
+
+### `Ctrl Shift P`
+* search for commands e.g.: 
+  * `reload window`

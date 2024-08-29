@@ -1,5 +1,5 @@
 # Must learn
-* Shooter 2:32:00
+* Shooter 3:15:30
 
 ---
 
@@ -7,10 +7,7 @@
 
 ---
 
-### `Code`
-
-* `@export var pipe_scene : PackedScene` - pozwala na instantowanie konkretnej sceny w innej scenie poprzez: `var pipe = pipe_scene.instantiate()`
-* `Array`
+### Arrays
 
 
     var pipes: Array
@@ -21,9 +18,8 @@
     var pipe = pipe_scene.instantiate()
     pipes.append(pipe)
 
-
     var test_array: Array[String] = ['a', 'b']
-* `target other nodes`
+### Target other nodes
   * `get_node("node path")`
   * `$node path`
   * `Unique Name`
@@ -31,28 +27,32 @@
     * click `Access as Unique Name`
     * `%node path`
   * `$".."` - parent node
-* 
-* `move node`
+
+### Move and rotate
   * `position = Vector2(100, 200)`
-* `rotate node`
   * `rotation_degrees = 45`
-* `delta`
+  * `position` - relative to parent
+  * `global_position` - relative to (0,0) point. independent of any parents
+### delta
   * `1s/60 frames = 0.0167` ~17 ms
-* `inputs`
+### inputs
   * `Input.is_action_pressed("left")`
 
 ### instantiate(): PackedScene
     var laser_scene: PackedScene = preload("res://scenes/projectiles/laser.tscn")
     var laser = laser_scene.instantiate()
     laser.position = pos
-    add_child(laser) 
+    add_child(laser)
+    or: $Projectiles.add_child(laser)
+
+* `@export var pipe_scene : PackedScene` - pozwala na instantowanie konkretnej sceny w innej scenie poprzez: `var pipe = pipe_scene.instantiate()`
 
 ### get_children(): ArrayOfChildrenNodes
     var laser_markers = $LaserStartPositions.get_children()
     var selected_laser = laser_markers[randi() % laser_markers.size()]
     laser.emit(selected_laser.global_position)
 
-### `Life cycle`
+### Life cycle functions
 * `func _ready():` - uruchamiana raz na początku
 * `func _physics_process(delta):` - pętla uruchamiana w dokładnie takich samych momentach na każdym komputerze - do obsługi fizyki
 
