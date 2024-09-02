@@ -10,7 +10,7 @@
 * https://dev.to/coursesity/react-libraries-to-use-in-2021-15-top-picks-37d7
 * https://tworcastron.pl/kursy/node-kurs-kompletny
 * https://www.patterns.dev/react/hooks-pattern - dokończyć
-* fiszki JS, teraz 13 - TODO
+* fiszki JS, teraz 16 - TODO
 * web dev simplified forad map frontend and backend
 * tematy z https://kursjs.pl
 * https://developer.mozilla.org/en-US/docs/Web/JavaScript - wszystko
@@ -497,6 +497,21 @@
   * `encodeURI(uri)`
   * koduje wszystkie znaki z wyjątkiem specjalnych: `<,/?:@&=+$#>`
   * dekoduje się poprzez `decodeURI(encodedURI)`
+* `call vs apply`
+  * służą do podmiany kontekstu funkcji czyli wskaźnika `this`
+  * `numbers.push.apply(numbers, others)` 
+* `bind`
+  * `bind` w porównaniu do call i apply nie zwraca wyniku ale funkcję, którą można wykonać w przyszłości
+  * `const addFn = numbers.push.bind(numbers)` - funkcja addFn niezależnie kiedy będzie wykonana będzie znała znacznik this
+* `slice vs splice`
+  * `slice`
+    * nie modyfikuje tablicy
+    * zwraca część tablicy jako nową tablicę
+    * służy do wybierania elementów z tablicy
+  * `splice`
+    * modyfikuje tablicę
+    * zwraca usunięte elementy tablicy
+    * służy do dodawania lub usuwania elementów z listy
 
 ---
 ## Tips
@@ -535,6 +550,7 @@
 * `sudo pnpm create next-app@latest <project-name>` - create app in projects folder
 * `sudo chown -R msadlo next-js-ai-project` - recursively change owner of folders files to actual user - dont need to use sudo any more
 * Use pnpm because is faster and better than yarn and npm
+  * `brew install pnpm` - better
   * `npm install -g pnpm`
 * `App Router vs Pages Router`
   * `App Router`

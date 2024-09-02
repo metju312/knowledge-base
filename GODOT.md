@@ -1,5 +1,5 @@
 # Must learn
-* Shooter 3:15:30
+* Shooter 3:46:00
 
 ---
 
@@ -33,6 +33,9 @@
   * `rotation_degrees = 45`
   * `position` - relative to parent
   * `global_position` - relative to (0,0) point. independent of any parents
+  * `look_at(get_global_mouse_position())` - rotate player to look at mouse
+  * `var player_direction = (get_global_mouse_position() - position).normalized()` - get player look at ditection
+  * `laser.rotation_degrees = rad_to_deg(player_direction.angle()) + 90` - 90 bacause sprite is rotating at the begining to up not right
 ### delta
   * `1s/60 frames = 0.0167` ~17 ms
 ### inputs
@@ -83,9 +86,14 @@
   * others collide with it
   * not supposed to be moved
   * e.g. walls, obstacles
-* `RigidBody2D`
-  * set velocity
+### RigidBody2D
+  * set velocity, better: `linear_velocity`
   * e.g. granade
+
+
+    var grenade = grenade_scene.instantiate() as RigidBody2D
+    grenade.linear_velocity = Vector2.UP * 100
+
 * `CharacterBody2D`
   * dla poruszających się postaci i wrogów
   * player e.g. all enemies
