@@ -10,7 +10,7 @@
 * https://dev.to/coursesity/react-libraries-to-use-in-2021-15-top-picks-37d7
 * https://tworcastron.pl/kursy/node-kurs-kompletny
 * https://www.patterns.dev/react/hooks-pattern - dokończyć
-* fiszki JS, teraz 13 - TODO
+* fiszki JS, teraz 26 - TODO
 * web dev simplified forad map frontend and backend
 * tematy z https://kursjs.pl
 * https://developer.mozilla.org/en-US/docs/Web/JavaScript - wszystko
@@ -425,17 +425,29 @@
   * wyrzuca błędy JS gdzie w zwykłym trybie są to błędy ciche
   * naprawie błędy optymalizacyjne JS'a - kod jest szybszy
   * poprawia komunikowanie o błędach
+    * zapobiega przypadkowemu tworzeniu zmiennych w global scope
+    * wyłapuje powtórzone parametry w deklaracji funkcji
+    * zapobiega tworzeniu zmiennych ze słów kluczowych np. let private = 1
+    * zgłasza błedy przy niepoprawnym użyciu delete
   * można go definiować dla całej aplikacji lub dla konkretnych funkcji
   * zmiany przewidujące ewolucję ES
 * `eval()`
   * uruchamia kod JS'owy zapisany stringiem
   * bardzo niebezpieczne
-* `event loop` - nieskończona jednowątkowa pętla, która jest bazą java scripta. Składa się z call stacka, heap'a i quene
+* `event loop` - nieskończona jednowątkowa pętla, która jest bazą java scripta. Wykonuje zadania z `call stacka`, `task queue` oraz `render queue`
   * `heap` - sterta - tu są przechowywane obiekty
-  * `quene` - zadania do wykonania w następnej kolejności
-  * `call stack` - stos wywołań, typów prostych i referencji - tu trafiają wszystkie wykonywane w tym momencie funkcje. Działa w LIFO
+  * `task quene` - zadania do wykonania w następnej kolejności przez event loop, np. callbacki funkcji asynchronicznych
+  * `render queue` - kolejka renderowania, tu są wszystkie operacje zmieniające wygląd strony
+  * `call stack` - stos wywołań, typów prostych i referencji - tu trafiają wszystkie użyte funkcje. Działa w LIFO
     * `micro tasks` - Promise.resolve().then/catch/finally, kontynuacja async, requestAnimationFrame()
     * `macro tasks` - ostatnie. setTimout, setInterval, 
+  * `loop:`
+    * 1. Wykonaj wszystkie zadania z `call stack`
+    * 2. wykonaj wszystkie operacje z `render queue`
+    * 3. Sprawdź czy coś jest w `task queue`
+      * jeśli jest wówczas
+        * sprawdź czy `call stack` jest pusty
+          * jeśli jest pusty to weź jedno zadanie z `task queue` i przenieś na `call stack`
 * `optional channing`
   * `?.`
   * from JS ES2020
@@ -497,7 +509,71 @@
   * `encodeURI(uri)`
   * koduje wszystkie znaki z wyjątkiem specjalnych: `<,/?:@&=+$#>`
   * dekoduje się poprzez `decodeURI(encodedURI)`
+* `call vs apply`
+  * służą do podmiany kontekstu funkcji czyli wskaźnika `this`
+  * `numbers.push.apply(numbers, others)` 
+* `bind`
+  * `bind` w porównaniu do call i apply nie zwraca wyniku ale funkcję, którą można wykonać w przyszłości
+  * `const addFn = numbers.push.bind(numbers)` - funkcja addFn niezależnie kiedy będzie wykonana będzie znała znacznik this
+* `slice vs splice`
+  * `slice`
+    * nie modyfikuje tablicy
+    * zwraca część tablicy jako nową tablicę
+    * służy do wybierania elementów z tablicy
+  * `splice`
+    * modyfikuje tablicę
+    * zwraca usunięte elementy tablicy
+    * służy do dodawania lub usuwania elementów z listy
+* `scope`
+  * zakres zmiennych określający ich widoczność i dostępność w różnych miejscach kodu
+  * `let` - block scope
+  * `var` - widoczne wewnątrz funkcji nawet po opuszczeniu bloku kodu w którym zostały zdefiniowane
+    * zakres okraniczony jest do funkcji `function scope`
+    * jeśli został zadeklarowany poza funkcją wówczas do przestrzeni globalnej
+* `dziedziczenie prototypowe`
+  * dziedziczą właściwości i metody po obiektach - rodzicach
+  * `Prototype` jest obiektem który służy jako szablon podczas tworzenia innych obiektów
+  * `Dog.prototype = Object.create(Animal.prototype)` - Dog będzie miał dostęp do funkcji Animal'a
+* `hoisting`
+  * mechanizm JS'a przenoszący deklaracje funkcji oraz zmiennych na samą górę, tzn do zasięgu funkcji lub globalnego zasięgu
+* `closure`
+  * domknięcie to funkcja wewnętrzna, która ma dostęp do:
+    * zmiennych, które sama definiuje
+    * zmiennych w scope funkcji zewnętrznej
+    * zmiennych globalnych
 
+
+    const add = x => y => x + y;
+    const add10 = add(10); // add10 to domknięcie funkcji add
+
+    add10(20) //30
+    add10(50) //60
+* `IIFE`
+  * Immediately Invoked Function Expression
+  * funkcja która jest wykonywana bezpośrednio po jej odczytaniu
+  * używa się aby zapobiec wydostawaniu się zmiennych do zewnętrznego scopeu
+  * może przyjmować argumenty i zwracać wynik
+
+
+    var message = (function () {
+      var tempMsg = 'hello';
+      return tempMsg;
+    })()
+    console.log(message) //hello
+* `zmiana kontekstu wywołania funkcji`
+  * polega na wywołaniu metody z jednej klasy na obiekcie innej klasy
+  * polega na podmianie wskaźnika `this` za pomocą `call`, `apply` lub `bind`
+
+
+    cat.say('meows', 'hello!');
+    cat.say.apply(dog, ['barks', 'apply!'])
+    cat.say.call(dog, 'barks', 'apply!')
+
+    const dogFn = cat.say.bind(dog);
+    dogFn('barks', 'bind!');
+* `Object.freeze() vs Object.seal`
+  * objek na którym wykonanu freeze() staje się immutable i nie można zmieniać jego wartości
+  * seal - można zmieniać jego istniejące wartości ale nie można dodawać nowych ani usuwać istniejących
 ---
 ## Tips
 * conditional array element
@@ -535,6 +611,7 @@
 * `sudo pnpm create next-app@latest <project-name>` - create app in projects folder
 * `sudo chown -R msadlo next-js-ai-project` - recursively change owner of folders files to actual user - dont need to use sudo any more
 * Use pnpm because is faster and better than yarn and npm
+  * `brew install pnpm` - better
   * `npm install -g pnpm`
 * `App Router vs Pages Router`
   * `App Router`

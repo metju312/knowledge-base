@@ -1,5 +1,5 @@
 # Must learn
-* Shooter 3:15:30
+* Shooter 4:50
 
 ---
 
@@ -33,6 +33,9 @@
   * `rotation_degrees = 45`
   * `position` - relative to parent
   * `global_position` - relative to (0,0) point. independent of any parents
+  * `look_at(get_global_mouse_position())` - rotate player to look at mouse
+  * `var player_direction = (get_global_mouse_position() - position).normalized()` - get player look at ditection
+  * `laser.rotation_degrees = rad_to_deg(player_direction.angle()) + 90` - 90 bacause sprite is rotating at the begining to up not right
 ### delta
   * `1s/60 frames = 0.0167` ~17 ms
 ### inputs
@@ -69,12 +72,23 @@
 
 * `Area2D` - ma sygnał body.enter używane np do kolizji
 * `CollisionShape2D` - zawsze przy kolizjach
+  * `Layer & Mask`
+    * `Layer` - determines on which layers the object itself is. E.g. Player is in layer `Player
+    * `Mask` - determines which layers it can interact with. E.g. Player can interacjt with other players, zones, projectiles, objects... so multiple layers
 * `AnimatedSprite2D`
 *   do animacji 2D
   * można przeciągać kilka plików tworzących 1 animację
   * można użyć 1 pliku z kilkoma obrazkami i wycinać animacje
   * można umieszczać wiele animacji w 1 pliku
-* `Sprite2D` - statyczne obrazji - bez animacji
+* `Sprite2D`
+  * statyczne obrazji - bez animacji
+  * zapętlanie tekstur:
+    * `Region` > `Enabled` > `On`
+    * `Region` > `Edit Region`
+    * zaznaczyć dużo większy prostokąt
+    * `Texture` > `Repeat` > `Enable` - powtarza teksturę
+  * zmiana koloru
+    * `Visibility` > `Modulate`(change color of childrens too) / `Selft Modulate`
 * `Area2D`
   * check if another body entered
   * can be moved
@@ -83,16 +97,50 @@
   * others collide with it
   * not supposed to be moved
   * e.g. walls, obstacles
-* `RigidBody2D`
-  * set velocity
+### RigidBody2D
+  * set velocity, better: `linear_velocity`
   * e.g. granade
+
+
+    var grenade = grenade_scene.instantiate() as RigidBody2D
+    grenade.linear_velocity = Vector2.UP * 100
+
 * `CharacterBody2D`
   * dla poruszających się postaci i wrogów
   * player e.g. all enemies
   * for movement use `move_and_slide()` and `velocity` not possition
 * `Marker2D`
   * node posiadający tylko lokalizację (position i global_position(tego używać))
+* `Camera2D`
+  * must be child of moving object
+  * better not do add to scene e.g. player but add to level node e.g. player
 ---
+
+
+# Tilemap
+
+
+---
+### Tileset
+* `tile` - sigle graphic
+* `tileset` - combination of tiles
+* `tilemap` - a godot node that organizes tilesets
+
+### Multiple Tiles in one Tileset/TileMap
+* drag and drop two graphics to TileSet tab
+* Name it in Setup tab
+* Add Layers in TileMap Inspector tab
+* Order layers
+* Then drawing tiles select proper layer
+---
+
+### Add physics layer
+* Scene > Click on your Tilemap > Click on TileSet > Physics Layers
+  * Select `Collision Layer` e.g. Objects and `Collision Mask` e.g. player, enemies, projectiles
+* Go to bottom TileSet Tab
+  * Paint
+    * Physics Layer 0
+    * Click on tile and add/move poits
 
 # Project > Project Settings
 
@@ -100,3 +148,9 @@
 * Input Map > Actions
 
 ---
+
+### `Window size`
+* General > Display > Window > Size > Viewport With/Height
+
+### Layers names
+* General > Layer Names > 2D Physics 
