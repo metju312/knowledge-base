@@ -10,7 +10,7 @@
 * https://dev.to/coursesity/react-libraries-to-use-in-2021-15-top-picks-37d7
 * https://tworcastron.pl/kursy/node-kurs-kompletny
 * https://www.patterns.dev/react/hooks-pattern - dokończyć
-* fiszki JS, teraz 26 - TODO
+* fiszki JS, teraz 39 - TODO
 * web dev simplified forad map frontend and backend
 * tematy z https://kursjs.pl
 * https://developer.mozilla.org/en-US/docs/Web/JavaScript - wszystko
@@ -367,6 +367,7 @@
   * skryptowy(programy automatyzujące zadania uruchamiane w środowiskach skryptowych wykonywane jeden po drugim)
   * oraz wieloparadygmatowy język programowania (jest wiele sposobów na rozwiązanie tego samego programu)
   * stworzony przez firmę Netscape
+  * first class function - posiada funkcje, które są traktowane jak każda inna zmienna
 * `EcmaScript`
   * ECMA-European Association for Standardizing Information and Communication Systems
   * EcmaScript - ustandaryzowana specyfikacja obiektowego języka programowania
@@ -574,6 +575,51 @@
 * `Object.freeze() vs Object.seal`
   * objek na którym wykonanu freeze() staje się immutable i nie można zmieniać jego wartości
   * seal - można zmieniać jego istniejące wartości ale nie można dodawać nowych ani usuwać istniejących
+
+### Persistent Data Structures
+* Trwałe struktury danych
+* Zachowują poprzednie wersje kiedy są modyfikowane
+* czyli są `immutable`
+* najłatwiej jest skorzystać z biblioteki `import { Map } from 'immutable'`
+
+### console
+* console.log
+* console.time - do mierzenia czasu wykonania
+* console.table - do wyświetlania zawartości tablic
+
+### zabezpieczenie obiektu przed rozszerzaniem
+* `Object.preventExtensions()` - uniemożliwia tylko dodawanie nowych właściwości
+* `Object.seal()` - możliwa będzie zmiana istniejących właściwości
+* `Object.freeze()` - nic nie można zrobić
+
+### function
+* `first class functions` - możliwość zapisywania funkcji do zmiennych
+* `higher order functions` - funkcje, które operują na innych funkcjach
+  * przyujmują funkcje jako argument
+  * zwracają funkcje jako wynik swojego działania
+* `pure function`
+  * jest deterministyczna
+  * wynik zależy tylko od parametrów wywołania
+  * nie modyfikuje zewnętrznych wartości ani zmiennych poza swoim zakresem
+  * nie ma efektów ubocznych takich jak manipulacja DOM, zapytania HTTP, operacje I/O
+
+### event bubbling ^ & event capturing v
+* `event bubbling`
+  * typ propagacji zdarzeń gdzie zdarzenia obsługiwane są w pierwszej kolejności przez element najbardziej wewnętrzny a dalej przez kolejne parenty
+  * jest to domyślnie ustawione
+  * można przerwać poprzez wykonanie `event.stopPropagation()`
+  * `element.addEventListener('click', handle);`
+* `event capturing`
+  * pierwszy jest parent potem schodzi się do childów
+  * `element.addEventListener('click', handle, true);`
+
+### event delegation - delegacja zdarzeń
+* jeśli mamy wiele elementów drzewa DOM obsługiwanych w ten sam sposób
+* to zamiast tworzyć handlery dla każdego z nich
+* tworzymy 1 handler nadrzędny do którego będziemy delegować wsystkie elementy
+* np. `<ul` ma 1 handler dla wszystkich `<li`
+* informacja który element został kliknięty znajduje się w `event.target`
+* `form.addEventListener('input', function(event){event.target})`
 ---
 ## Tips
 * conditional array element

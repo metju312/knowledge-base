@@ -141,10 +141,24 @@
   * Paint
     * Physics Layer 0
     * Click on tile and add/move poits
+    * 
+---
 
+### Particles
+* `GPUParticles2D` Node for e.g PC
+* `CPUParticles2D` Node for e.g. web
+* Process Material
+  * Spawn
+    * Position
+    * Angle
+    * Velocity (speed)
+* In code:
+  * `$GPUParticles2D.emitting = true`
+
+---
 # Project > Project Settings
 
-### `Inputs`
+### Inputs
 * Input Map > Actions
 
 ---
