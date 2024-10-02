@@ -10,7 +10,7 @@
 * https://dev.to/coursesity/react-libraries-to-use-in-2021-15-top-picks-37d7
 * https://tworcastron.pl/kursy/node-kurs-kompletny
 * https://www.patterns.dev/react/hooks-pattern - dokończyć
-* fiszki JS, teraz 39 - TODO
+* fiszki JS, teraz 64 - TODO
 * web dev simplified forad map frontend and backend
 * tematy z https://kursjs.pl
 * https://developer.mozilla.org/en-US/docs/Web/JavaScript - wszystko
@@ -70,7 +70,11 @@
 
 ### `Security`
 * `CSP` - Content Security Policy - zapobiega cross-site scripting, clickjacking i innym atakom polegającym na wstrzykiwaniu kodu. Twórca aplikacji webowej określa z jakich źródeł może aplikacja pobierać zasoby. Nagłówek HTTP: `Content-Security-Policy` w odpowiedzi serwera. Webowo określa DNSy z których przeglądarka może pobierać wszelkie zasoby
-* `SOP` - Same Origin Policy - polityka tego samego pochodzenia: Funkcja zabezpieczeń przeglądarki, która ogranicza sposób uzyskiwania dostępu do zasobów przez różne aplikacje internetowe. Ta zasada wymaga, aby zasób pochodził z tego samego źródła, co aplikacja internetowa próbująca uzyskać do niego dostęp.
+* `SOP
+  * Same Origin Policy
+  * polityka tego samego pochodzenia: Funkcja zabezpieczeń przeglądarki, która ogranicza sposób uzyskiwania dostępu do zasobów przez różne aplikacje internetowe
+  * Ta zasada wymaga, aby zasób pochodził z tego samego źródła, co aplikacja internetowa próbująca uzyskać do niego dostęp.
+  * session i local storage 1 domeny nie może korzystać z sessiopn i local storage innej domeny
   * wyjątki:
     * obrazy, audio, video
     * css
@@ -345,6 +349,9 @@
     * do nawigacji używa części hash z URL np. `#/users/guest`
     * konfiguracja serwera nie jest wymagana
   * `MemoryRouter` - przechowuje informacje o URL i jego zimanach w pamięci. Nie modyfikuje przy tym adresu strony pasku adresu przeglądarki
+  * object window.history
+    * zawiera historię przglądania stron
+    * jest używany do przełączania się wstecz/dalej
 
 ---
 
@@ -436,7 +443,11 @@
   * uruchamia kod JS'owy zapisany stringiem
   * bardzo niebezpieczne
 * `event loop` - nieskończona jednowątkowa pętla, która jest bazą java scripta. Wykonuje zadania z `call stacka`, `task queue` oraz `render queue`
-  * `heap` - sterta - tu są przechowywane obiekty
+  * `memory heap` - sterta - tu są przechowywane obiekty
+    * w chrome daje obiekt performance.memory
+      * `performance.memory.usedJSHeapSize`
+      * `performance.memory.totalJSHeapSize` - pamięć zarezerwowana dla strony
+      * `performance.memory.jsHeapSizeLimit` - dostępne maksimum pamięcie
   * `task quene` - zadania do wykonania w następnej kolejności przez event loop, np. callbacki funkcji asynchronicznych
   * `render queue` - kolejka renderowania, tu są wszystkie operacje zmieniające wygląd strony
   * `call stack` - stos wywołań, typów prostych i referencji - tu trafiają wszystkie użyte funkcje. Działa w LIFO
@@ -620,6 +631,130 @@
 * np. `<ul` ma 1 handler dla wszystkich `<li`
 * informacja który element został kliknięty znajduje się w `event.target`
 * `form.addEventListener('input', function(event){event.target})`
+
+### attributes vs properties
+* `attributes`
+  * zdefiniowane na poziomie HTML
+  * npm typ pola input lub wartość
+* `properties`
+  * używane w kodzie JS
+  * np. input.value
+
+### Storages
+* `web storage` - zapewnia mechanizmy do zapisywania i odczytywania par klucz-wartość przyjaźniej niż cookies
+  * `session storage`
+    * przechowuje dane w czasie trwania sesji
+    * giną po zamknięciu przeglądarki
+    * max 10MB
+  * `local storage`
+    * przechowuje dane również po zamknięciu przeglądarki
+    * istnieją do czasu usunięcia przez użytkownika lub za pomocą JS'a
+    * max 10MB
+  * `cookies`
+    * obsługiwane po stronie kleinta i servera
+    * czas życia jest konfigurowany przez parametr Expired
+    * max 4KB
+
+### Promise
+* obiekt reprezentującty wynik działania operacji asynchronicznej
+* moze być w stanach: `fulfilled` (zakończony), `rejected` (odrzucony) albo `pending`(w trakcie)
+* jeśli kończy się powodzeniem wówczas wywoływana jest metoda `resolve()`
+* jak fail to reject()
+* zalety
+  * pozbycie się callback hell
+  * łączenie kolejnych wywołać asynchronicznych poprzez `.then()`
+  * `Promise.all()` równolegle wywołania funkcji asynchronicznych
+  * `.catch()` - obsługa wyjątków
+
+### async/await
+* zapis obsługi funkcji asynchronicznych zbudowany w oparciu o Promise
+* słowo `async` przed deklaracją funkcji sprawi, że będzie ona zwracałą domyślnie `Promise`
+* słowo `await` może wystąpić tylko w ramach funkcji async
+* `await` sprawia, że operacja asynchroniczna po prawej stronie wyrażenia (najczęściej Promise) musi się zakończyć zanim przetworzona zostanie dalsza część funkcji
+
+### Callback hell
+* przeplata się wiele zagnieżdżonych callbacków
+
+### Object.values vs Object.entries
+* `Object.values()` zwraca tablicę zawierającą wartości wszystkich właściwości obiektu
+* `Object.entries()` zwraca tablicę par klucz-wartośc każdej właściwości obiektu
+
+      const user = { name: 'Bob', age: 26 }; 
+      Object.values(user) // ["Bob", 26]
+      Object.entries(user) // [["name", "Bob"], ["age", 26]]
+### for...in vs for...of
+* for...in
+  * iteruje po wszystkich kluczach właściwości obiektu
+  w przypadku tablic kluczem są indeksy kolejnych elementów tablicy
+* for...of
+  * iteruje po wartościach obiektu, elementach tablicy, znakach w stringach
+
+### sprawdzenie czy obiekt ma property
+* `in`: `"name" in user //true`
+* `hasOwnProperty`: `user.hasOwnProperty("name")`
+* porównanie z undefined: user.name !== undefined
+
+### Polyfill
+* szpachlówka, wypełniacz, kod JS który jest potrzebny, eby udostępnić najnowsze możliwości JS'a starszym przeglądarkom
+* mozna tez użyć 
+
+### Tree shaking
+* mechanizm usuwania nieużywanego kodu
+* podczas budowania nie są dodawane metody, które nie są używane
+
+### Łańcuch prototypów
+* każdy obiekt posiada pole łączące go z innym obiektem zwanym jego prrototypem
+* obiekt prototypu posiada swój własny prototyp
+* i tak dalej aż osięgnie się null
+* `component.__proto__.__proto__.__proto__` e.g. `Course.prototype / Object.prototype / null`
+
+### __proto__ vs prototype
+* `__proto__` jest polem obiektu wskazującym na prototyp, "idzie się w górę"
+* `prototype`jest polem obiektu funkcji wskazującej na prototyp jaki będą miały obiektu utworzone na bazie tej funkcji za pomocą operatora `new`
+
+### HTTP/1 vs HTTP/2
+* HTTP/1
+  * bezstanowy protokuł sieciowy do obsługi stron www
+  * klient wysyła prośbę a serwer odpowiada poprzez wysłanie danych stanowiących zawartośc strony
+  * używane są GET, POST itd
+* HTTP/2
+  * rozwinięcie HTTP/1
+  * po 18 latach
+  * twórcy google
+  * opiera się na założeniach SPDY
+  * zmiany:
+    * jest binary przez co szybszy i lepiej kodowany
+    * używane jest tylko 1 połączenie na sesję a nie trzeba nawiązywać ciągle nowych połączeń
+    * możliwość nadawania priorytetów co poprawia szybkość i dostępność. Każdy ze strumieni ma przypisaną wagę
+    * zastosowanie kompresji HPACK skraca rozmiary nagłówków żadania i odpowiedzi
+    * multipleksowanie - najważenijsze - możliwość pobierania wielu elementów jednocześnie
+    * push - serwer sam może dosyłać do klienta zasoby np. pliki
+    * wymusza (jeśli chce się korzystać ze wszystkich zalet http/2) korzystania z połączenia szyfrowanego czyli certyfikatu SSL dla minimumm właścicieli strony
+  
+### czym są klasy w ES6
+* lukier składniowy (syntaks sugar) dla istniejącego mechanizmu opartego o prototypy
+* wprowadzają prostrzą składnie dla tworzenia obiektów
+
+### obfuskacja
+* proces tworzenia kodu JS
+* chodzi o utrudnienie odczytania kodu przez innych np. poprzez reverse enginering
+* zmniejsza rozmiar kodu
+* przyspiesza pobieranie przez aplikacje klienckie
+* jednak nie szyfruje kodu - ważniejsze informacje należy zaszyfrować ręcznie
+
+### minifikacja
+* proces kasowania z kodu zbędnych znaków np. spacji, nowych linii, komenatrzy
+* zachowuje poprawność działania
+
+### currying
+* proces polegający na zmienie krotności funkcji
+* zamienia funkcję przyjmującą wiele parametrów w sekwencję funkcji z których każda przymuje jeden parametr
+* wtedy funkcje są czytelne i reużywalne
+* `const curriedAdder = a => b => a + b;`
+
+### partial application 73
+
+
 ---
 ## Tips
 * conditional array element

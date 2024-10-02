@@ -1,5 +1,5 @@
 # Must learn
-* Shooter 4:50 lights
+* Shooter 6:08 animation player
 
 ---
 
@@ -155,6 +155,59 @@
 * In code:
   * `$GPUParticles2D.emitting = true`
 
+### Lights
+* `PointLight` - light from a point source (firecamp, flashlight)
+  * Texture - must have
+  * Texture Scale - range of light
+  * Energy - power of light
+  * Color
+* `DirectionalLight` - light from a direction (sun) 
+* `LightOccluder` - collision for light
+  * Draw polygon when light from the (0,0) point will be stoped
+  * Enable shadows from PointLight!
+  * Modify shadow e.g. color
+  * add shadow filter
+  * Add occluder to TileMap e.g. walls:
+    * Select TileSet
+    * Rendering
+    * Occlusion Layer
+    * TileSet bottom tab
+      * Pain Occlusion Layer 0
+
+### Animations
+* Seperate images > AnimatedSprite2D Node
+* Spritesheet: Sprite2D Node - it has ana animation tab
+
+### AnimationPlayer 
+* To animate 2D sprite
+  * Add track
+  * Property Track...
+  * Sprite 2D
+  * Click key on `Sprite2D::Animation::frame` property
+* To destroy object
+  * Add track
+  * Call Method Track...
+  * Root object
+  * queue_free()
+* To hide sprite
+  * Add track
+  * Property Track...
+  * Sprite 2D
+  * Click key visible
+  * Add 2 keys on track
+  * change value of second key
+* To transparently hide
+  * Add track
+  * Property Track...
+  * Explosion / Sprite
+  * Click key modulate
+  * Add 2 keys on track
+  * change value of second key
+  * Option: change graph on the right panel of track
+
+### Tweens
+* 
+
 ---
 # Project > Project Settings
 
@@ -168,3 +221,7 @@
 
 ### Layers names
 * General > Layer Names > 2D Physics 
+
+
+### Shortcuts
+* Ctrl + Shift + o then write scene you want to open
