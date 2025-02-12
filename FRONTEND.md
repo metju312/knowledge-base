@@ -70,8 +70,9 @@
 
 ### `Security`
 * `CSP` - Content Security Policy - zapobiega cross-site scripting, clickjacking i innym atakom polegającym na wstrzykiwaniu kodu. Twórca aplikacji webowej określa z jakich źródeł może aplikacja pobierać zasoby. Nagłówek HTTP: `Content-Security-Policy` w odpowiedzi serwera. Webowo określa DNSy z których przeglądarka może pobierać wszelkie zasoby
-* `SOP
-  * Same Origin Policy
+* `SOP` - Same Origin Policy
+  * mechanizm bezpieczeństwa który zapobiega wysyłaniu żądań HTTP z poziomu JS do serwera działającego na innym origin (protokół + host + port)
+  * aby jednak to umożliwić trzeba zastosować CORS
   * polityka tego samego pochodzenia: Funkcja zabezpieczeń przeglądarki, która ogranicza sposób uzyskiwania dostępu do zasobów przez różne aplikacje internetowe
   * Ta zasada wymaga, aby zasób pochodził z tego samego źródła, co aplikacja internetowa próbująca uzyskać do niego dostęp.
   * session i local storage 1 domeny nie może korzystać z sessiopn i local storage innej domeny
@@ -81,6 +82,8 @@
     * skrypty ale mogą one uzyskiwać dostęp do elementów DPM i manipulować nimi tylko ze źródła w którym zostały załadowane
     * iframe
 * `CORS` - Cross-Origin Resource Sharing
+  * mechanizm pozwalający aplikacjom clienckim wystawionym na adresei origin X wysyłać żądania do serwera Y
+  * aby serwer to umożliwił musi określić header: Access-Control-Allow-Origin: X
   * wysyła Preflight/Options przez GET/POST itp.
   * steruje SOP'em określając źródła z których można zaciągać zasoby
   * umożliwia serwerom wskazanie źródeł, z których przeglądarki mogą żądać zasobów
@@ -93,9 +96,23 @@
   * metoda ataku na serwis internetowy, nie na przeglądarkę czy to co widzi użytkownik
   * Ofiarami CSRF stają się użytkownicy nieświadomie przesyłający do serwera żądania spreparowane przez osoby o wrogich zamiarach
   * Celem crackera jest wykorzystanie uprawnień ofiary do wykonania operacji
+  * Przykład ataku:
+    * znalezienie niechronionego formularza z którego korzysta ofiara
+    * spreparowanie żądania HTTP pod ten sam adres co formularz ale z wykorzystaniem złoścliwych danych
+    * gdy użytkownik wyśle spreparowane żądanie przeglądarka dołączy do niego zawartość plików cookie co może spowodować wykonanie w systemie akcji o której użytkownik nie wiedział
+    * aby to zabezpieczyć należy do każdego formularza dodać losową wartośc - token CSRF którego obecność i poprawność będzie zweryfikowana po stronie serwera po otrzymaniu żądania
 * `XSS` - cross-site scripting
   * zabezpieczany za pomocą CSP
   * sposób ataku na serwis WWW polegający na osadzeniu w treści atakowanej strony kodu (zazwyczaj JavaScript), który wyświetlony innym użytkownikom może doprowadzić do wykonania przez nich niepożądanych akcji
+  * Przykład popularnego ataku:
+    * znalezienie pola input, którego wartośc nie jest walidowana ani czyszczona
+    * atakujący wpisuje w pole input fragment kodu JS który następnie zostanie zapisany w bazie danych i wyświetlony w innych miejscach systemu jako dane użytkownika
+    * żeby to zabezpieczyć należy zawsze czyścić i sprawdzać zawartość formularzy
+* `SSJI` - `Server-side JS Injection`
+  * atak na backend najczęściej w Node.js
+  * umożliwia wykonanie złoścliwego kodu na serwerze bo ma dostępn np. do bazy danych
+  * aby zabezpieczyć należy nie używać eval
+  * nigdy nie używać wartości wprowadzonych do systemu zanim nie zostaną zwalidowane i oczyszczone
 * https://www.bomberbot.com/lessons/cors-csp-and-other-web-security-concepts-an-introduction-for-developers/ TODO
 
 # Tech stack / Tools
@@ -352,6 +369,7 @@
   * object window.history
     * zawiera historię przglądania stron
     * jest używany do przełączania się wstecz/dalej
+    * nie przeładowuje całej strony
 
 ---
 
@@ -442,6 +460,7 @@
 * `eval()`
   * uruchamia kod JS'owy zapisany stringiem
   * bardzo niebezpieczne
+* `event table` - tablica zdarzeń - struktura danych przechowująca informacje na temat zarejestrowanych zdarzeń asynchronicznych - tu jest zapisywany np. czas po którym zawartość setTimeout'a ma się wykonać. Gdy czas dojedzie do końca zdarzenie trafia do event queue
 * `event loop` - nieskończona jednowątkowa pętla, która jest bazą java scripta. Wykonuje zadania z `call stacka`, `task queue` oraz `render queue`
   * `memory heap` - sterta - tu są przechowywane obiekty
     * w chrome daje obiekt performance.memory
@@ -651,9 +670,50 @@
     * istnieją do czasu usunięcia przez użytkownika lub za pomocą JS'a
     * max 10MB
   * `cookies`
-    * obsługiwane po stronie kleinta i servera
-    * czas życia jest konfigurowany przez parametr Expired
+    * obsługiwane (edtowane) po stronie klineta jak i servera (przekazywane są tylko do tego samego serwera)
+    * czas życia jest konfigurowany przez parametr Expired, który można edytować
     * max 4KB
+    * służą do zapamiętania informacji o stanie sesji użytkownika pomimo bezstanowej natury HTTP
+      * obsługa koszyków sklepowych
+      przechowywanie preferencji użytkownika
+      śledzenie analizy jego zachowań
+    * opcje:
+      * Expires - konkretny termin
+      * Max-Age - określony czas
+      * Domain - określa dozwoloną domenę
+      * Path - określa dozwoloną ścieżkę URL
+      * HttpOnly - sprawia, że ciasteczka są niedostępne z poziomu JS
+      * Secure - sprawia, że można je przesyłać tylko poprzez HTTPS
+    * jak stworzyć:
+      * przez serwer poprzez header: Set-Cookie
+      * przez JS: `document.cookie = "selected=React"`
+    * odczytanie: `document.cookie`
+
+### Metody żądań HTTP
+* GET, POST, PUT, DELETE,
+* HEAD - podobny do GET'a ale nie zwraca zawartości, pobiera tylko metadaneo zasobie w postaci nagłówków
+* OPTIONS - zwraca informację jakie żądania są obsługiwane przez serwer
+
+### Idempotentność metod HTTP
+* identyczne żądania wysyłane wielokrotnie mają ten sam efekt (jeśli są zaimplementowane poprawnie po stronie serwera)
+* POST - nie jest idempotentna - każdy request tworzy nowy zasób - zwrotka jest inna
+
+### Promise chaining
+* fetch zwraca Promise
+* fetch.then() - też zwraca promise więc można tak dalej
+* fetch.then().then().then() - sekwencja operacji asynchronicznych ale kolejna wykonuje się zaraz po skończeniu poprzedniej
+
+### Promise.all()
+* robi then dopiero gdy wszystkie promisy się rozwiążą
+* Promise.all([fetchUser, fetchAllPermissions]).then()
+
+### Promise.race()
+* Promise.race([fetchUser, fetchAllPermissions]).then()
+* then - jest z tego promise'a, który wykonał się najszybciej
+
+### Przerwanie działania Promise'A
+* nie można przerwać działania Promise'a
+* ewentualnie można użyć biblioteki rxjs, która korzysta z Observables
 
 ### Promise
 * obiekt reprezentującty wynik działania operacji asynchronicznej
@@ -752,16 +812,140 @@
 * wtedy funkcje są czytelne i reużywalne
 * `const curriedAdder = a => b => a + b;`
 
-### partial application 73
+### operators
+* [...array] - shallow (płytkie) clone of array - copy WITH objects references. To copy without references use e.g. lodash::cloneDeep
 
+### partial application
+* polega na zmianie funkcji przyjmującą wiele parametrów w funkcję przyjmującą mniejszą liczbę parametrów
+
+### arrow functions
+* funkcje strzałkowe
+* od ES6
+* nie posiadają swojego własnego this, arguments oraz super
+
+### Event.preventDefault()
+* przerywa obłusgę aktualnego zdarzenia
+* nie zatrzymuje propagacji
+
+### Event.stopPropagation()
+* powoduje przerwanie propagacji zdarzeń
+* natomiast nie spowoduje przerwania aktualnego zdarzenia, żeby to zrobić, trzeba użyć Event.preventDefault()
+
+### zmiana URL'a bez przeładowania strony
+* history.pushState(state, title, url)
+
+### wywołanie redirect'u
+* `window.location.replace(url);` // podobne do HTTP redirect
+* `window.location.assign(url);`  // podobne do załadowania strony
+* `window.location.href = url;`   // podobne do kliknięcia w link
+* `window.location.back();`       // podobne do kliknięcia wstecz
+* `window.location.go(-1);`       // cofnięcie w historii o dowolną liczbę
+
+### adres strony
+* `const url = window.location;`
+* `url.href`     // https://google.com:8080/pl-PL/search?q=URL#js  // pełny adres URL
+* `url.origin`   // https://google.com:8080
+* `url.protocol` // https:
+* `url.host`     // google.com:8080
+* `url.hostname` // google.com
+* `url.port`     // 8080
+* `url.pathname` // /pl-PL/search
+* `url.search`   // ?q=URL
+* `url.hash`     // #js
+
+### data attributes html
+* atrybuty elementów html takich jak div z prefixem `data-*`
+* e.g. <div id="1" data-id="123", data-user-name="Mat">
+* służą do osadzania w html dodatkowych atrybutów danych
+* atrybuty można odczytać js'em poprzez `document.getElementById("1").dataset.id` //123
+
+### load vs DOMContentLoaded
+* zdarzenie `DOMContentLoaded`jest uruchamiane gdy całą strona html jest załadowana bez czekania na pobranie pozostałych skryptów i np css'ów
+* zdarzenie `load` jest uruchamiane po załadowaniu całej strony ze wszystkimi skryptami i np. css'ami
+* `document.addEventListener('DOMContentLoaded', (event) => {...})`
+* `window.addEventListener('load', (event) => {...})`
+
+### window vs document
+* `window` - reprezentuje okno lub tab wraz z załadowanym dokumentem DOM. Dostęp: `window` lub `document.defaultView`
+* `document` - reprezentuje stronę załadowaną w oknie przeglądarki i stanowi punkt dostępu do drzewa DOM. Dostęp: `window.document` lub `document`
+
+### <script async> vs <script defer>
+* <script async> - ładuje skrypty asynchronicznie podczas ładowania strony nie przerywając procesu renderowania
+* <script defer> - opóźnia wykonanie skryptów do czasu pełnego załadowania strony. Nawet jak skrypt zostanie pobrany wcześniej to wykona się dopiero po załadowaniu strony. Tuż przed odpaleniem zdarzenia DOMContentLoaded
+
+### Ładowanie czcionek przez <link> vs @import
+* link jest lepsze bo asynchronicznie
+* @import synchroniczne
+
+### Garbege Collector
+* jeśli do obiektu nie można się dostać czyli nie ma do niego żadnej referencji wówczas jest usuwany z pamięci
+* Reference Counting Algoritm - algorytm usuwania obiektów z wadą, że jeśli jest referencja do samego siebie wówczas nigdy nie zostanie usunięty > wyciek pamięci
+* Mark and Sweep - sprawdza aż od obiektu window czy można się dostać do childrenów > jeśli nie wówczas jest usuwany. Oznacza wszystkie obiekty childreny, potem childreny childrenów itd. Wszystkie inne są usuwanw (aqwwp)
+
+### WeakSet
+* podobny do Set'a ale sam usuwa obiekty do których nie ma referencji
+* przechowuje słabe referencje a set zwykłe
+* przydatny gdy jest tworzonych dużo obiektów
+* można przechowywać tylko obiekty
+* uniemożliwia iterowanie
+* WeakMap - analogicznie do WeakSet
+
+### Typy obiektów
+* native - te z ECMAScriptu czyli np. Object, Date, Math, RegExp, Function itd.
+* host - dostarczane przez środowisko. Dla JS przeglądarkowego będzie to np.: window, document, location, history itp.
+* user - wszsytkie inne tworzone w kodzie
+
+### Wartości this
+* w global scope > window
+* podczas wykonywania metody wskazuje na ten obiekt
+* wewnątrz setTimeout wskazuje na window
+* w konstruktorze wskazuje na nowo utworzony obiekt
+* podczas wykonywania bind, call, apply wskazuje na obiekt przekazany jako pierwszy parametr
+* podczas obsłuygi zdarzeń DOM wskazuje na element DOM który był źródłem zdarzenia
+
+### Iterator
+* Obiekt, który wie jak uzyskać dostęp do elementów kolekcji
+* dostarcza metodę next()
+* Implementują go np. Array, String, Map, Set
+
+### Sposoby na poprawę bezpieczeństwa aplikacji JS
+* Silne hashowanie haseł przez np.: SHA-256 lub bcrypt wraz z dodaną wartością salt
+* Dodawanie do formularzy losowej wartości aby zapobiegać CSRF
+* Używanie nagłówków CORS
+* Szyfrowanie zawartości plików cookie oraz innych danych zapisanych po stronie klienta
+* Stosowanie flagi HttpOnly dla cookies
+* Walidowanie danych wprowadzanych przez użytkownika pod kątem ataków Cross Site Scripting
+* Wyłączenie autouzupełniania najbardziej wrażliwych danych
+* Unikanie funkcji eval
+
+### Temporal Dead Zone
+* Sytuacja gdy zmienne są wykorzystywane przed ich deklaracją
+
+### Service worker
+* skrypt JS'owy wykonywany w tle oddzielnie od kodu JS wykonywanego na stronie
+* wykorzystanie:
+  * obsługa strony offline i implementacja PWA
+  * synchronizacja danych z zewnętrznymi serwisami
+  * wysyłka notyfikacji push
+  * przechowywanie i obsługa żądań HTTP
+  * zarządzanie cache
+* nie ma bezpośredniego dostępu do DOM ale może się komunikować z kodem na przeglądarce za pomocą metody postMessage
+
+### Server-sent events (SEE)
+* technologia pozwalająca serwerowi na wysyłanie informacji do przeglądarki w dowolnym momencie
+* SEE tworzy jednokierunbkowy kanał komunikacji: od serwera do przeglądarki
+* np. notowania giełdowe, messenger
+* opiera się na interfejsie `EventSource`
+* serwer wysyła w formacie text/event-stream
+* kończenie za pomocą `EventSource.close()`
 
 ---
 ## Tips
-* conditional array element
+* conditional/optional array element
 
 
     const array = ['first', ...(true ? ['second'] : [])]
-* conditional object property
+* conditional/optional object property
 
 
     const element = {...(true && {a: 5})}

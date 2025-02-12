@@ -1,11 +1,18 @@
 # Must learn
-* Shooter 6:08 animation player
+* Shooter 6:54:36 animation player https://youtu.be/nAh_Kx5Zh5Q?si=dMzFX1nzfxxJfJYM&t=24387
 
 ---
+
+# GENERAL
+
+### Levels Inheritance
+* New Inheritance Scene > this create child scene
+* In GD script:
+  * Parent: `class_name LevelParent`
+  * Child after detach script: `extends LevelParent`
+
 
 # GDScript
-
----
 
 ### Arrays
 
@@ -70,17 +77,21 @@
 
 # Nodes
 
-* `Area2D` - ma sygnał body.enter używane np do kolizji
-* `CollisionShape2D` - zawsze przy kolizjach
+### `Area2D`
+  * ma sygnał body.enter używane np do kolizji
+
+### `CollisionShape2D` - zawsze przy kolizjach
   * `Layer & Mask`
     * `Layer` - determines on which layers the object itself is. E.g. Player is in layer `Player
     * `Mask` - determines which layers it can interact with. E.g. Player can interacjt with other players, zones, projectiles, objects... so multiple layers
-* `AnimatedSprite2D`
-*   do animacji 2D
+
+### `AnimatedSprite2D`
+  * do animacji 2D
   * można przeciągać kilka plików tworzących 1 animację
   * można użyć 1 pliku z kilkoma obrazkami i wycinać animacje
   * można umieszczać wiele animacji w 1 pliku
-* `Sprite2D`
+
+### `Sprite2D`
   * statyczne obrazji - bez animacji
   * zapętlanie tekstur:
     * `Region` > `Enabled` > `On`
@@ -89,14 +100,17 @@
     * `Texture` > `Repeat` > `Enable` - powtarza teksturę
   * zmiana koloru
     * `Visibility` > `Modulate`(change color of childrens too) / `Selft Modulate`
-* `Area2D`
+
+### `Area2D`
   * check if another body entered
   * can be moved
   * e.g. player entered a house, laser
-* `StaticBody2D`
+
+### `StaticBody2D`
   * others collide with it
   * not supposed to be moved
   * e.g. walls, obstacles
+
 ### RigidBody2D
   * set velocity, better: `linear_velocity`
   * e.g. granade
@@ -114,6 +128,13 @@
 * `Camera2D`
   * must be child of moving object
   * better not do add to scene e.g. player but add to level node e.g. player
+
+### Timer
+* Add Node
+* Change props in Inspector
+* `$Timer.start()`
+* Add timeout signal
+
 ---
 
 
@@ -206,9 +227,20 @@
   * Option: change graph on the right panel of track
 
 ### Tweens
-* 
+* simple properties animations where AnimationPlayer is a overkill
+* e.g. on player entered aren zoom camera:
+  * `var zoom_tween = get_tree().create_tween();`
+  * `zoom_tween.tween_property($Player/Camera2D, 'zoom', Vector2(1,1), 1)`
+* to async property changes use:
+  * `zoom_tween.set_parallel(true)`
+* features:
+  * loops of animations
+  * default value: `.from(value e.g. 0.5)`
+  * transitions form e.g. QUAD: `.set_trans(Tween.QUAD)
 
 ---
+
+
 # Project > Project Settings
 
 ### Inputs
