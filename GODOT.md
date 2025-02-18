@@ -1,16 +1,16 @@
 # Must learn
-* Shooter 6:54:36 animation player https://youtu.be/nAh_Kx5Zh5Q?si=dMzFX1nzfxxJfJYM&t=24387
+* Shooter 8:01:13 animation player https://youtu.be/nAh_Kx5Zh5Q?si=dMzFX1nzfxxJfJYM&t=24387
 
 ---
 
 # GENERAL
 
-### Levels Inheritance
+### `Levels Inheritance`
 * New Inheritance Scene > this create child scene
 * In GD script:
   * Parent: `class_name LevelParent`
   * Child after detach script: `extends LevelParent`
-
+  * overwriting methods is enable
 
 # GDScript
 
@@ -66,14 +66,12 @@
 * `func _ready():` - uruchamiana raz na początku
 * `func _physics_process(delta):` - pętla uruchamiana w dokładnie takich samych momentach na każdym komputerze - do obsługi fizyki
 
----
-
-`Komunikacja pomiędzy Nodami`
-* 
-
+### Level Transitions - przejścia
+* `var inside_level_scene: PackedScene = preload("res://scenes/levels/inside.tscn")`
+* `get_tree().change_scene_to_packed(inside_level_scene)`
 
 
----
+
 
 # Nodes
 
@@ -111,7 +109,7 @@
   * not supposed to be moved
   * e.g. walls, obstacles
 
-### RigidBody2D
+### `RigidBody2D`
   * set velocity, better: `linear_velocity`
   * e.g. granade
 
@@ -119,24 +117,23 @@
     var grenade = grenade_scene.instantiate() as RigidBody2D
     grenade.linear_velocity = Vector2.UP * 100
 
-* `CharacterBody2D`
-  * dla poruszających się postaci i wrogów
-  * player e.g. all enemies
-  * for movement use `move_and_slide()` and `velocity` not possition
-* `Marker2D`
-  * node posiadający tylko lokalizację (position i global_position(tego używać))
-* `Camera2D`
-  * must be child of moving object
-  * better not do add to scene e.g. player but add to level node e.g. player
+### `CharacterBody2D`
+* dla poruszających się postaci i wrogów
+* player e.g. all enemies
+* for movement use `move_and_slide()` and `velocity` not possition
 
-### Timer
+# `Marker2D`
+* node posiadający tylko lokalizację (position i global_position(tego używać))
+
+# `Camera2D`
+* must be child of moving object
+* better not do add to scene e.g. player but add to level node e.g. player
+
+### `Timer`
 * Add Node
 * Change props in Inspector
 * `$Timer.start()`
 * Add timeout signal
-
----
-
 
 # Tilemap
 
@@ -239,6 +236,17 @@
   * transitions form e.g. QUAD: `.set_trans(Tween.QUAD)
 
 ---
+
+
+# UI - User Interface
+
+### `CanvasLayer` Node - part of camera
+* for UI
+
+### `Containers & Anchors`
+* Containers - e.g. Horizonal/Vertical
+* Anchros green dots
+
 
 
 # Project > Project Settings

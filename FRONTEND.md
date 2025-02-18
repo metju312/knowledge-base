@@ -1,20 +1,20 @@
-# Must learn
+# In progress
+* Next js
 
----
-* https://www.linkedin.com/feed/update/urn:li:activity:7217405412189323265?utm_source=share&utm_medium=member_desktop
-* https://type-level-typescript.com/
-* https://edu.devstyle.pl/login
+# Board
+* TypeScript
+* narzędzia typu
+  * bundlery
+  * webpack 
+
+# Must learn
+* https://www.youtube.com/@javascriptmastery/videos - great!
 * https://exercism.org/
 * https://egghead.io/q/resources-by-dan-abramov
 * https://www.epicweb.dev/
-* https://dev.to/coursesity/react-libraries-to-use-in-2021-15-top-picks-37d7
 * https://tworcastron.pl/kursy/node-kurs-kompletny
-* https://www.patterns.dev/react/hooks-pattern - dokończyć
-* fiszki JS, teraz 64 - TODO
-* web dev simplified forad map frontend and backend
 * tematy z https://kursjs.pl
 * https://developer.mozilla.org/en-US/docs/Web/JavaScript - wszystko
-* > project w najnowszym tech w next.js - TODO
 
 # Courses
 * AWS software development engineer
@@ -23,18 +23,11 @@
 * Domain Driven Design & Event Storming course
 
 # YouTube channels
-
----
-
 * [Jack Herrington](https://www.youtube.com/@jherr/videos)
 * [Web Dev Simplified](https://www.youtube.com/@WebDevSimplified/videos)
 
-
 # Acronyms
-
----
 ### `Development process`
-
 * [SOLID in React](https://konstantinlebedev.com/solid-in-react/)
   * Single responsibility principle (SRP) - “every function/module/component should do exactly one thing”
   * Open-closed principle (OCP) -  structuring our components in a way that allows them to be extended without changing their original source code
@@ -90,7 +83,7 @@
   * najczęściej chodzi o to, zeby zasób pochodził z tego samego źródła co aplikacja webowa próbująca uzyskać do niego dostęp
   * wykorzystuje nagłówki żądań i odpowiedzi HTTP do komunikacji z serwerem zasobów i uzyskiwania od niego pozwolenia
   * zmniejsza ryzyko CSRF cross-site request forgery
-### `Atacks`
+### `Attacks`
 * `CSRF` - cross-site request forgery
   * zabezpieczany za pomocą CORS
   * metoda ataku na serwis internetowy, nie na przeglądarkę czy to co widzi użytkownik
@@ -116,233 +109,186 @@
 * https://www.bomberbot.com/lessons/cors-csp-and-other-web-security-concepts-an-introduction-for-developers/ TODO
 
 # Tech stack / Tools
-
----
-
-* `Redux`
-  * stan aplikacji jest przechowywany w 1 miejscu jako drzewo obiektów, którym jest `store`
-  * `akcje` to obiekty opisujące CO zmieniło się w stanie aplikacji. Wysyłane są przez `store.dispatch()`
-  * zmiany stanu następują przez `reducery`, które są funkcjami bez efektów ubocznych. Opisują JAK dane z akcji modyfikują stan
-  * `store`
-    * obiekt tylko do odczytu przechowujący stan aplikacji w postaci drzewa i pilnuje zmian stanu
-    * jest modyfikowany akcjami
-    * odczyt za pomocą `getState()`
-    * rejestruje listenery za pomocą `subscribe()`
-* `Redux Thunk`
-  * dostarcza `middleware` pozwalający na tworzenie funkcji pozwalająctch asynchroniczne operacje po których odczytuje stan i wysyła akcje
-  * dzieje się to poprzez `action creators` dzięki nim thunk opóźnia wysłanie akcji do momentu kiedy zostanie zrealizowana operacja asynchroniczna np. request do API
+### `Redux`
+* stan aplikacji jest przechowywany w 1 miejscu jako drzewo obiektów, którym jest `store`
+* `akcje` to obiekty opisujące CO zmieniło się w stanie aplikacji. Wysyłane są przez `store.dispatch()`
+* zmiany stanu następują przez `reducery`, które są funkcjami bez efektów ubocznych. Opisują JAK dane z akcji modyfikują stan
+* `store`
+  * obiekt tylko do odczytu przechowujący stan aplikacji w postaci drzewa i pilnuje zmian stanu
+  * jest modyfikowany akcjami
+  * odczyt za pomocą `getState()`
+  * rejestruje listenery za pomocą `subscribe()`
+### `Redux Thunk`
+* dostarcza `middleware` pozwalający na tworzenie funkcji pozwalająctch asynchroniczne operacje po których odczytuje stan i wysyła akcje
+* dzieje się to poprzez `action creators` dzięki nim thunk opóźnia wysłanie akcji do momentu kiedy zostanie zrealizowana operacja asynchroniczna np. request do API
 
 
-      function updateUserRole(role) {
-        return dispatch => fetchUsers().then(
-          users => dispatch(changeRoleTo(role, users)),
-          users => dispatch(apologize('Failed', error))
-        );
-      }
-      store.dispatch(updateUserRole('support'));
-
-* `Redux Saga`
-  * podobny `middleware` do `redux thunk`
-  * służy do obsługi efektów ubocznych zmiany stanu
-  * jest zbudowana wokół generatorów z ES6
-
-
-    // Saga fetchUser czeka na wywołanie akcji USER_REQUESTED // np. dispatch({ type: 'USER_REQUESTED', payload: { userId } }) function fetchUser(action) {
+    function updateUserRole(role) {
+      return dispatch => fetchUsers().then(
+        users => dispatch(changeRoleTo(role, users)),
+        users => dispatch(apologize('Failed', error))
+      );
     }
-    const user = yield call (Api.fetchUser, action.payload.userId); yield put({ type: "USER_SUCCEEDED", user: user });
-    // Wywołuje fetchUser dla każdej akcji tego typu function mySaga() {
-    yield takeEvery("USER_REQUESTED", fetchUser);
+    store.dispatch(updateUserRole('support'));
 
-* `Redux Toolkit`
-  * `Why`
-    * "Configuring a Redux store is too complicated"
-    * "I have to add a lot of packages to get Redux to do anything useful"
-    * "Redux requires too much boilerplate code"
-  * `content`
-    * `configureStore()` - wrap createStore, simplify configuration, add tools like `redux-thunk`
-    * `createReducer()` - use `immer` lib to write simpler updates
-    * `createAction()` - generates an action creator function for the given action type string
-    * `createSlice()` - accepts an object of reducer functions, a slice name, and an initial state value, and automatically generates a slice reducer with corresponding action creators and action types
-    * `combineSlices()` - combines multiple slices into a single reducer, and allows "lazy loading" of slices after initialisation.
-    * `createAsyncThunk()` - accepts an action type string and a function that returns a promise, and generates a thunk that dispatches pending/fulfilled/rejected action types based on that promise
-    * `createEntityAdapter()` - generates a set of reusable reducers and selectors to manage normalized data in the store
-    * `createSelector()` - utility from the Reselect library, re-exported for ease of use.
-  * `RTK Query` - Redux Toolkit Query - optional addon to data fetching and caching
-    * `createApi()` - define endpoints
-    * `fetchBaseQuery()` - A small wrapper around fetch that aims to simplify requests
-    * `<ApiProvider />` - Can be used as a Provider if you do not already have a Redux store.
-    * `setupListeners()` - A utility used to enable refetchOnMount and refetchOnReconnect behaviors.
-* `Gatsby` - Cloud to build/deploy/host websites
-* `Sentry` - performence monitor for websites
-* `Performance Measure`
-  * `Metrics`
-    * `First Contentful Paint (FCP)`: The time it takes for the first piece of content to be rendered on the screen.
-    * `Time to Interactive (TTI)`: The time it takes for the app to become fully interactive.
-    * `React Component Render Time`: The time it takes for individual React components to render
-    * `JavaScript Bundle Size`: The size of the JavaScript files downloaded and executed by the browser.
-    * `Memory Usage`: The amount of memory used by the application.
-  * `Tools`
-    * `Chrome DevTools` - "Performance" tab
-    * `React Developer Tools` - Profiler
-    * `Lighthouse` - Chrome Addon - generates reports
-    * `Web Vitals` - Chrome Addon - get stats of FCP, TTI e.g.
-    * `Code Splitting and Lazy Loading`
-* `modern build tools`
-  * `webpack`
-    * module bundler
-    * processes your application and creates a dependency graph
-    * C++ preprocessor for Javascript
-  * `Vite`
-    * serves your code locally during development
-    * bundles your javascript, CSS, and other assets together
-    * simplifies and speeds up the build process
-    * It leverages (dźwignie) modules in the browser to load your code instantly
-    * Rollup.js under the hood on production
-    * Vite uses esbuild for dependency pre-bundling. And this leads to significant performance improvements.
-  * `Parcel`
-    * Zero Configuration Bundler
-  * `Rollup`
-    * module bundling focus is on reusable **JavaScript libraries mostly**
-    * best Tree-Shaking
-    * Highly Customizable Configuration
-    * Extensive Plugin Ecosystem
-  * `ESbuild`
-    * Blazing-Fast Builds - the fastest
-    * Command- Line Interface (CLI) & JavaScript API for programmatic integration
-  * Fastify - fastest web framework for node.js
-* `Next.js` - React framework for building full-stack web applications
-* `Nest.js`
-  * A progressive (additional markup to html) Node.js framework for building efficient, reliable and scalable server-side applications
-  * solve Architecture problem
-  * architecture is heavily inspired by Angular
-* `Vercel` - cloud platform for build and release web apps 
-* `Monorepo build systems`
-  * Lerna - build system for JS monorepo
-  * Bit
-  * pnpm workspace
-  * yarn workspaces
-  * NX - next gen build system, support monorepo, powerful integrations
-  * Rush
-  * Turborepo
-    * purchesed by Vercel
-    * incremental build, skip what is computed
-    * hashing
-    * remote caching with teammates
-    * parallel execution
-* `Microfrontends`
-  * Module Federation - TODO
-  * TODO
-* `Django` - web framework using python to write apps
-* `CSS`
-  * Tailwind - TODO
-  * LESS - TODO
-  * SCSS - TODO
-  * PostCSS - TODO
-* `AWS` - TODO
-* `GCP` - TODO
-* `Firebase` - TODO
-* `OpenAI API for frontend dev` - TODO
-* `Databases`
-  * PostgresSQL - TODO
-  * MySQL - TODO
-  * CosmosDB - TODO
-  * DynamoDB - TODO
-  * RDS - TODO
-  * MongoDB - TODO
-  * CouchDB - TODO
-  * TODO
-* `GraphQL` - TODO
-* `REST` - TODO
-* `Lambda` - TODO
-* `Docker` - TODO
-* `Websockets` - TODO
-* `Sanity` - TODO
-* `Hygraph` - TODO
-* `Headless CMS` - Content Management System - Headless - dont have frontend (head). Can have multiple frontends because provide api for data fetching
-  * `Strapi`
-    * Open-source
-    * self-hosted
-    * or clouded
-  * `Builder.io`
-    * design to code
-    * like figma with code generation
+### `Redux Saga`
+* podobny `middleware` do `redux thunk`
+* służy do obsługi efektów ubocznych zmiany stanu
+* jest zbudowana wokół generatorów z ES6
 
-### `Tests`
-* `RTL`
-  * lightweight testing library from Kent C. Dodds
-  * centered around user interactions and observable behavior
-  * Render Components in Isolation
-  * User-Centric Testing
-* `Jest`
-  * From Facebook
-  * zero config setup
-  * snapshot testing - specific point
-  * parallel test running
-  * code coverage reporting
-  * można łączyć z innymi bilbiotekami, ponieważ jest nie jest stricte reactowy
-* `Cypress`
-  * popular end-to-end tests
-  * Visual Testing
-  * Network Traffic Control
-  * Real Browser Testing
-* `Playwright`
-  * end-to-end testing
-  * testuje kod na wielu przeglądarkach jednocześnie
-* `Vitest` - todo
-* `Mocha`
-* `Chai`
-* `Enzyme`
-  * from Airbnb
-  * rich set of tools for manipulating and inspecting React components
-* `Jasmine`
-  * BDD - behavior-driven development - testing framework
-* `Karma`
-  * Multiple Browser Support
 
-# Design Patterns
+  // Saga fetchUser czeka na wywołanie akcji USER_REQUESTED // np. dispatch({ type: 'USER_REQUESTED', payload: { userId } }) function fetchUser(action) {
+  }
+  const user = yield call (Api.fetchUser, action.payload.userId); yield put({ type: "USER_SUCCEEDED", user: user });
+  // Wywołuje fetchUser dla każdej akcji tego typu function mySaga() {
+  yield takeEvery("USER_REQUESTED", fetchUser);
 
----
+### `Redux Toolkit`
+* `Why`
+  * "Configuring a Redux store is too complicated"
+  * "I have to add a lot of packages to get Redux to do anything useful"
+  * "Redux requires too much boilerplate code"
+* `content`
+  * `configureStore()` - wrap createStore, simplify configuration, add tools like `redux-thunk`
+  * `createReducer()` - use `immer` lib to write simpler updates
+  * `createAction()` - generates an action creator function for the given action type string
+  * `createSlice()` - accepts an object of reducer functions, a slice name, and an initial state value, and automatically generates a slice reducer with corresponding action creators and action types
+  * `combineSlices()` - combines multiple slices into a single reducer, and allows "lazy loading" of slices after initialisation.
+  * `createAsyncThunk()` - accepts an action type string and a function that returns a promise, and generates a thunk that dispatches pending/fulfilled/rejected action types based on that promise
+  * `createEntityAdapter()` - generates a set of reusable reducers and selectors to manage normalized data in the store
+  * `createSelector()` - utility from the Reselect library, re-exported for ease of use.
+* `RTK Query` - Redux Toolkit Query - optional addon to data fetching and caching
+  * `createApi()` - define endpoints
+  * `fetchBaseQuery()` - A small wrapper around fetch that aims to simplify requests
+  * `<ApiProvider />` - Can be used as a Provider if you do not already have a Redux store.
+  * `setupListeners()` - A utility used to enable refetchOnMount and refetchOnReconnect behaviors.
+### `Gatsby` - Cloud to build/deploy/host websites
+### `Sentry` - performence monitor for websites
+### `Performance Measure`
+### `Metrics`
+* `First Contentful Paint (FCP)`: The time it takes for the first piece of content to be rendered on the screen.
+* `Time to Interactive (TTI)`: The time it takes for the app to become fully interactive.
+* `React Component Render Time`: The time it takes for individual React components to render
+* `JavaScript Bundle Size`: The size of the JavaScript files downloaded and executed by the browser.
+* `Memory Usage`: The amount of memory used by the application.
+### `Tools`
+* `Chrome DevTools` - "Performance" tab
+* `React Developer Tools` - Profiler
+* `Lighthouse` - Chrome Addon - generates reports
+* `Web Vitals` - Chrome Addon - get stats of FCP, TTI e.g.
+* `Code Splitting and Lazy Loading`
+### `modern build tools`
+* `webpack`
+  * module bundler
+  * processes your application and creates a dependency graph
+  * C++ preprocessor for Javascript
+* `Vite`
+  * serves your code locally during development
+  * bundles your javascript, CSS, and other assets together
+  * simplifies and speeds up the build process
+  * It leverages (dźwignie) modules in the browser to load your code instantly
+  * Rollup.js under the hood on production
+  * Vite uses esbuild for dependency pre-bundling. And this leads to significant performance improvements.
+* `Parcel`
+  * Zero Configuration Bundler
+* `Rollup`
+  * module bundling focus is on reusable **JavaScript libraries mostly**
+  * best Tree-Shaking
+  * Highly Customizable Configuration
+  * Extensive Plugin Ecosystem
+* `ESbuild`
+  * Blazing-Fast Builds - the fastest
+  * Command- Line Interface (CLI) & JavaScript API for programmatic integration
+* Fastify - fastest web framework for node.js
+### `Nest.js`
+* A progressive (additional markup to html) Node.js framework for building efficient, reliable and scalable server-side applications
+* solve Architecture problem
+* architecture is heavily inspired by Angular
+### `Vercel` - cloud platform for build and release web apps 
+### `Monorepo build systems`
+* Lerna - build system for JS monorepo
+* Bit
+* pnpm workspace
+* yarn workspaces
+* NX - next gen build system, support monorepo, powerful integrations
+* Rush
+* Turborepo
+  * purchesed by Vercel
+  * incremental build, skip what is computed
+  * hashing
+  * remote caching with teammates
+  * parallel execution
+### `Microfrontends`
+* Module Federation - TODO
+* TODO
+### `Django` - web framework using python to write apps
+### `CSS`
+* Tailwind - TODO
+* LESS - TODO
+* SCSS - TODO
+* PostCSS - TODO
+### `AWS` - TODO
+### `GCP` - TODO
+### `Firebase` - TODO
+### `OpenAI API for frontend dev` - TODO
+### `Databases`
+* PostgresSQL - TODO
+* MySQL - TODO
+* CosmosDB - TODO
+* DynamoDB - TODO
+* RDS - TODO
+* MongoDB - TODO
+* CouchDB - TODO
+* TODO
+### `GraphQL` - TODO
+### `REST` - TODO
+### `Lambda` - TODO
+### `Docker` - TODO
+### `Websockets` - TODO
+### `Sanity` - TODO
+### `Hygraph` - TODO
+### `Headless CMS` - Content Management System - Headless - dont have frontend (head). Can have multiple frontends because provide api for data fetching
+* `Strapi`
+  * Open-source
+  * self-hosted
+  * or clouded
+* `Builder.io`
+  * design to code
+  * like figma with code generation
 
-* [React] `hooks`
-* [React] `HoC`
-* [React] `Client side rendering`
-* [React] `Server side rendering`
-* [React] `Compound Components/Pattern` (Komponenty złożone)
-
-      export default function FlyoutMenu() {
-        return ( 
-          <FlyOut>
-            <FlyOut.Toggle />
-            <FlyOut.List>
-              <FlyOut.Item>Edit</FlyOut.Item>
-              <FlyOut.Item>Delete</FlyOut.Item>
-            </FlyOut.List>
-          </FlyOut>
-        );
-      }
-* [React] `Render Props Pattern`
-
-      <Title render={() => <h1>I am a render prop!</h1>} />
-      const Title = (props) => props.render();
-
-* [React] `Progressive Hydration` - Przy SSR najpierw są zaczytywane html'e a dopiero potem handlery pozwalające na interakcję
-
-* [TypeScript]
-* [JavaScript] `Command` (Polecenie)
-
-      manager.placeOrder("Pad Thai");
-      >
-      manager.execute(new PlaceOrderCommand("Pad Thai"));
-* [JavaScript] `Factory` (Fabryka)
-
-      const user1 = createUser({ firstName: "John" ...});
-* [JavaScript] `Mediator/Middleware Pattern`
-
+# Tests
+### `RTL`
+* lightweight testing library from Kent C. Dodds
+* centered around user interactions and observable behavior
+* Render Components in Isolation
+* User-Centric Testing
+### `Jest`
+* From Facebook
+* zero config setup
+* snapshot testing - specific point
+* parallel test running
+* code coverage reporting
+* można łączyć z innymi bilbiotekami, ponieważ jest nie jest stricte reactowy
+### `Cypress`
+* popular end-to-end tests
+* Visual Testing
+* Network Traffic Control
+* Real Browser Testing
+### `Playwright`
+* end-to-end testing
+* testuje kod na wielu przeglądarkach jednocześnie
+### `Vitest` - todo
+### `Mocha`
+### `Chai`
+### `Enzyme`
+* from Airbnb
+* rich set of tools for manipulating and inspecting React components
+### `Jasmine`
+* BDD - behavior-driven development - testing framework
+### `Karma`
+* Multiple Browser Support
 
 # React
-
----
-
 ### `Basics`
 * `prop drilling` - konieczność przekazywania propsów wiele poziomów w drzewie DOM. Zamiast tego można użyć np. Context/Redux
 * `komponent kontrolowany` - react stanem kontroluje stan pól formularza (poprzez atrybut value), które normalnie (gdy są niekontrolowane) mają własny stan
@@ -381,11 +327,7 @@
 
 # TypeScript
 
----
-
 # JavaScript
-
----
 
 ### `Basics`
 * `JavaScript`
@@ -606,23 +548,23 @@
   * objek na którym wykonanu freeze() staje się immutable i nie można zmieniać jego wartości
   * seal - można zmieniać jego istniejące wartości ale nie można dodawać nowych ani usuwać istniejących
 
-### Persistent Data Structures
+### `Persistent Data Structures`
 * Trwałe struktury danych
 * Zachowują poprzednie wersje kiedy są modyfikowane
 * czyli są `immutable`
 * najłatwiej jest skorzystać z biblioteki `import { Map } from 'immutable'`
 
-### console
+### `console`
 * console.log
 * console.time - do mierzenia czasu wykonania
 * console.table - do wyświetlania zawartości tablic
 
-### zabezpieczenie obiektu przed rozszerzaniem
+### `zabezpieczenie obiektu przed rozszerzaniem`
 * `Object.preventExtensions()` - uniemożliwia tylko dodawanie nowych właściwości
 * `Object.seal()` - możliwa będzie zmiana istniejących właściwości
 * `Object.freeze()` - nic nie można zrobić
 
-### function
+### `function`
 * `first class functions` - możliwość zapisywania funkcji do zmiennych
 * `higher order functions` - funkcje, które operują na innych funkcjach
   * przyujmują funkcje jako argument
@@ -633,7 +575,7 @@
   * nie modyfikuje zewnętrznych wartości ani zmiennych poza swoim zakresem
   * nie ma efektów ubocznych takich jak manipulacja DOM, zapytania HTTP, operacje I/O
 
-### event bubbling ^ & event capturing v
+### `event bubbling ^ & event capturing v`
 * `event bubbling`
   * typ propagacji zdarzeń gdzie zdarzenia obsługiwane są w pierwszej kolejności przez element najbardziej wewnętrzny a dalej przez kolejne parenty
   * jest to domyślnie ustawione
@@ -643,7 +585,7 @@
   * pierwszy jest parent potem schodzi się do childów
   * `element.addEventListener('click', handle, true);`
 
-### event delegation - delegacja zdarzeń
+### `event delegation - delegacja zdarzeń`
 * jeśli mamy wiele elementów drzewa DOM obsługiwanych w ten sam sposób
 * to zamiast tworzyć handlery dla każdego z nich
 * tworzymy 1 handler nadrzędny do którego będziemy delegować wsystkie elementy
@@ -651,7 +593,7 @@
 * informacja który element został kliknięty znajduje się w `event.target`
 * `form.addEventListener('input', function(event){event.target})`
 
-### attributes vs properties
+### `attributes vs properties`
 * `attributes`
   * zdefiniowane na poziomie HTML
   * npm typ pola input lub wartość
@@ -659,7 +601,7 @@
   * używane w kodzie JS
   * np. input.value
 
-### Storages
+### `Storages`
 * `web storage` - zapewnia mechanizmy do zapisywania i odczytywania par klucz-wartość przyjaźniej niż cookies
   * `session storage`
     * przechowuje dane w czasie trwania sesji
@@ -689,12 +631,12 @@
       * przez JS: `document.cookie = "selected=React"`
     * odczytanie: `document.cookie`
 
-### Metody żądań HTTP
+### `Metody żądań HTTP`
 * GET, POST, PUT, DELETE,
 * HEAD - podobny do GET'a ale nie zwraca zawartości, pobiera tylko metadaneo zasobie w postaci nagłówków
 * OPTIONS - zwraca informację jakie żądania są obsługiwane przez serwer
 
-### Idempotentność metod HTTP
+### `Idempotentność metod HTTP`
 * identyczne żądania wysyłane wielokrotnie mają ten sam efekt (jeśli są zaimplementowane poprawnie po stronie serwera)
 * POST - nie jest idempotentna - każdy request tworzy nowy zasób - zwrotka jest inna
 
@@ -970,9 +912,18 @@
 
 # Next.js
 
----
+### `Courses`
+* https://www.youtube.com/watch?v=Zq5fmkH0T78&ab_channel=JavaScriptMastery
 
-### `Setup`
+### About Next.js
+*
+
+00:07:07
+
+
+
+
+### `[OLD] Setup`
 * `sudo pnpm create next-app@latest <project-name>` - create app in projects folder
 * `sudo chown -R msadlo next-js-ai-project` - recursively change owner of folders files to actual user - dont need to use sudo any more
 * Use pnpm because is faster and better than yarn and npm
